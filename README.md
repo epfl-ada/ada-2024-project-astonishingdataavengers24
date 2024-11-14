@@ -16,7 +16,9 @@ Movies often reflect the culture and society of a certain time and represent top
 ---
 
 ## Proposed Additional Datasets  
-- **New York Times Articles Dataset**: (~2GB)
+- **New York Times Articles Dataset**: (~2.93GB)
+  This dataset comprises title and excerpt for New York times articles from 1920 to 2020 found on https://www.kaggle.com/datasets/tumanovalexander/nyt-articles-data. It will be used to find recurrent topics over periods of time via topic modeling.
+  
 
 ---
 
@@ -27,26 +29,35 @@ Movies often reflect the culture and society of a certain time and represent top
    - **Plot Summaries**: Remove stop words and punctuation to keep only keywords.  
    - **Metadata**:  
      - Extract the year of release and group movies by decade to better visualize evolution of genres over time.  
-     - Clean and regroup genres to avoid redundancy (e.g., regrouping 'Anti-war' and 'Anti-war film').  
-
-2. **Genre Trends**:  
-   - Analyze the distribution of movie genres across decades and continents using metadata.
-   - Compute first the top 5 genres in the whole world, and how these genres are distributed in each continent, how popular they are in each continent.
+     - Clean and regroup genres to avoid redundancy (e.g., regrouping 'Anti-war' and 'Anti-war film').
+    - **New York Times articles**
+        - Remove stop words and punctuation to keep only keywords.
+    
 
 ---
 
-### Models  
+### Topic modeling and semantic search  
 - Use word embedding techniques to transform text into vector representations.  
 - Cluster movies based on thematic similarity using vector representations.
+- Find main topics in news articles per decade using topic modeling techniques.
+- Find common themes in both datasets
+- Use semantic search to retrieve a few meaningful topics in news and in movies
 
 ---
 
 ### Analysis  
-1. **Plot Summaries**:  
-   - Identify prevalent topics and themes for each decade [to be completed].  
 
-2. **Merging with News Data**:  
-   - Analyze the correlation between trends in movie themes and societal trends observed in news articles [to be completed].  
+1. **Compare evolution of trends between movies and news articles**:  
+   - Analyze the correlation over time between topics in movie themes and societal trends observed in news articles.
+2. **Genre Trends**:  
+   - Analyze the distribution of movie genres for the selected topics across decades and continents using metadata. Do it is says something about society preocupation ?
+   - Combine with sentiment analysis, do this movies represents fear or hopes of society ?
+   (- Compute first the top 5 genres in the whole world, and how these genres are distributed in each continent, how popular they are in each continent.)
+
+
+### Visualization 
+    
+ 
 
 ---
 
