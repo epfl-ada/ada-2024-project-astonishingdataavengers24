@@ -1,7 +1,7 @@
 # Parallel depiction of societal topics in movies and news : To what extent does cinema capture the key societal issues of its time, and how is this in sync with their representation in the media?
 
 
-## Abstract [To Be Completed]
+## Abstract 
 Movies often reflect the culture and society of a certain time and represent topics people are interested in. Our project explores how the themes and topics of movies have evolved over time, correlating them with trends observed in newspapers. Using the CMU Movie Summary Corpus, which includes data from over 42000 movies, our goal is to determine how societal issues are present in movies and how this presence evolves in comparison to the same topics in news articles. We want to examine their potential correlations and how they may appear shifted in time. To achieve this goal, we aim to detect important topics via topic modeling in both the CMU dataset as well as a news articles dataset from the New York Time. From that, we will be able to compare their presence of these topics over time and how differently they are treated in both media.
 
 
