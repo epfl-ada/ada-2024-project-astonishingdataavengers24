@@ -16,7 +16,9 @@ Movies often reflect the culture and society of a certain time and represent top
 ---
 
 ## Proposed Additional Datasets  
-- **New York Times Articles Dataset**: (~2GB)
+- **New York Times Articles Dataset**: (~2.93GB)
+  This dataset comprises title and excerpt for New York times articles from 1920 to 2020 found on https://www.kaggle.com/datasets/tumanovalexander/nyt-articles-data. It will be used to find recurrent topics over periods of time via topic modeling.
+  
 
 ---
 
