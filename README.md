@@ -46,14 +46,17 @@ Movies often reflect the culture and society of a certain time and represent top
 ---
 
 ### Analysis  
-1. **Plot Summaries**:  
-   - Identify prevalent topics and themes for each decade [to be completed].  
 
-2. **Merging with News Data**:  
-   - Analyze the correlation between trends in movie themes and societal trends observed in news articles [to be completed].
-3. **Genre Trends**:  
-   - Analyze the distribution of movie genres across decades and continents using metadata.
-   - Compute first the top 5 genres in the whole world, and how these genres are distributed in each continent, how popular they are in each continent.
+1. **Compare evolution of trends between movies and news articles**:  
+   - Analyze the correlation over time between topics in movie themes and societal trends observed in news articles.
+2. **Genre Trends**:  
+   - Analyze the distribution of movie genres for the selected topics across decades and continents using metadata. Do it is says something about society preocupation ?
+   - Combine with sentiment analysis, do this movies represents fear or hopes of society ?
+   (- Compute first the top 5 genres in the whole world, and how these genres are distributed in each continent, how popular they are in each continent.)
+
+
+### Visualization 
+    
  
 
 ---
