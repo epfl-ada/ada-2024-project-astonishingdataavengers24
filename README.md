@@ -64,11 +64,11 @@ We’ll create a nice interface to present our findings, display our plots and d
 
 | **Date**          | **Task**                                                                                     |
 |--------------------|---------------------------------------------------------------------------------------------|
-| 28.10.24 – 15.11.24 | Set up a topic, start data preprocessing/cleaning, and perform initial analyses on plot summaries and news topics. |
-| 18.11.24 – 24.11.24 | Homework 2                                                                                 |
-| 25.11.24 – 01.12.24 | Finalize algorithms for analyzing plot summaries and identify relevant news articles.      |
-| 02.12.24 – 08.12.24 | Create visualizations, draft preliminary conclusions about the correlation between movie and newspaper topics. |
-| 09.12.24 – 15.12.24 | Begin report drafting to present the data story.                                           |
+| 28.10.24 – 15.11.24 | Find topic,data preprocessing/cleaning, initial analyses on plot summaries, news topics and movie genres. |
+| 18.11.24 – 24.11.24 | Homework 2   |
+| 25.11.24 – 01.12.24 | Finish movies topic modeling and news topic modeling, start in-depth analysis     |
+| 02.12.24 – 08.12.24 | Visualizations, draft preliminary conclusions about the correlation between movie and newspaper topics |
+| 09.12.24 – 15.12.24 | Report draft                                         |
 | 16.12.24 – 22.12.24 | Finalize the project: website, code cleaning, GitHub organization, and final presentation.  |
 
 ---
