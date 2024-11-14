@@ -29,17 +29,19 @@ Movies often reflect the culture and society of a certain time and represent top
    - **Plot Summaries**: Remove stop words and punctuation to keep only keywords.  
    - **Metadata**:  
      - Extract the year of release and group movies by decade to better visualize evolution of genres over time.  
-     - Clean and regroup genres to avoid redundancy (e.g., regrouping 'Anti-war' and 'Anti-war film').  
-
-2. **Genre Trends**:  
-   - Analyze the distribution of movie genres across decades and continents using metadata.
-   - Compute first the top 5 genres in the whole world, and how these genres are distributed in each continent, how popular they are in each continent.
+     - Clean and regroup genres to avoid redundancy (e.g., regrouping 'Anti-war' and 'Anti-war film').
+    - **New York Times articles**
+        - Remove stop words and punctuation to keep only keywords.
+    
 
 ---
 
-### Models  
+### Topic modeling and semantic search  
 - Use word embedding techniques to transform text into vector representations.  
 - Cluster movies based on thematic similarity using vector representations.
+- Find main topics in news articles per decade using topic modeling techniques.
+- Find common themes in both datasets
+- Use semantic search to retrieve a few meaningful topics in news and in movies
 
 ---
 
@@ -48,7 +50,11 @@ Movies often reflect the culture and society of a certain time and represent top
    - Identify prevalent topics and themes for each decade [to be completed].  
 
 2. **Merging with News Data**:  
-   - Analyze the correlation between trends in movie themes and societal trends observed in news articles [to be completed].  
+   - Analyze the correlation between trends in movie themes and societal trends observed in news articles [to be completed].
+3. **Genre Trends**:  
+   - Analyze the distribution of movie genres across decades and continents using metadata.
+   - Compute first the top 5 genres in the whole world, and how these genres are distributed in each continent, how popular they are in each continent.
+ 
 
 ---
 
