@@ -30,32 +30,32 @@ Movies often reflect the culture and society of a certain time and represent top
 
 ### Steps 
 1. **Data Preprocessing**:  
-    - Remove stop words and punctuation, to keep only keywords in the movies plot summaries and NYT articles.
-    - Metadata: keep only the year of release of the movies and categorize the movies by decade to better visualize the evolution across time, clean the genres of the movies as there are many redundant genres that can be combined in one. 
-    - Word2Vec model word fitting:
-          - Find a proper representation for words not in the model, or remove them.
-          - Remove words that have a representation but are not in the English language (mainly names). 
-2. **Numerical representation for words -- Word2Vec model from Gensim**: This NLP technique usually uses a large neural network to create word embeddings: a map from words to a vector representation in a high-dimensional space. The Word2Vec model is usually trained on a very large corpus (in our case, we use a model trained on a dump of the entire English Wikipedia) and  maps vectors with similar usage patterns to similar vectors. 
-3. **Numerical representation for movie descriptions**: **Term Frequency-Inverse Document Frequency** is a method to compute a numerical representation for a movie description. A common pitfall when combining individual vectors of words to represent a text is that all  words should not have the same influence. To solve this, TF-IDF computes a weight for each word of the sentence, that will determine its global impact. If a word appears often in other movie descriptions, it will have a lower score. This follows the idea that rare words are generally more precise and meaningful than common ones. 
+	- Remove stop words and punctuation, to keep only keywords in the movies plot summaries and NYT articles.
+	- Metadata: keep only the year of release of the movies and categorize the movies by decade to better visualize the evolution across time, clean the genres of the movies by regrouping redundant ones.
+	- Word2Vec model word fitting:
+      	- Find a proper representation for words not in the model, or remove them.
+- Remove words with a representation but not in the English language (mainly names).
+2. **Numerical representation for words -- Word2Vec model from Gensim**: This NLP technique usually uses a large neural network to create word embeddings: a map from words to a vector representation in a high-dimensional space. The Word2Vec model is usually trained on a very large corpus (in our case, we use a model trained on a dump of the entire English Wikipedia) and maps vectors with similar usage patterns to similar vectors.
+3. **Numerical representation for movie descriptions**: **Term Frequency-Inverse Document Frequency** is a method to compute a numerical representation for a movie description. A common pitfall when combining individual vectors of words to represent a text is that all  words should not have the same influence. To solve this, TF-IDF computes a weight for each word of the sentence that will determine its global impact: a word appearing often in other movie descriptions will have a lower score. This means that rare words are generally more precise and meaningful than common ones.
 4. **Identify societal themes**:
-Taking the already preprocessed news dataset, we can find the top 30 topics per decade by topic modeling. First, we will try different topic modeling techniques, such as Latent Dirichlet Analysis (LDA) to find what seems to be the most suitable. We will find words to characterize such themes by finding an average word vector from the theme words and look for the closest word in our dictionary, and select manually the most meaningful themes for further analysis and semantic search. 
+Taking the already preprocessed news dataset, find the top 30 topics per decade by topic modeling. First, try different topic modeling techniques, such as Latent Dirichlet Analysis (LDA) to find what seems to be the most suitable. Find words to characterize such themes by finding an average word vector from the theme words and look for the closest word in our dictionary, and select manually the most meaningful themes for further analysis and semantic search.
 5. **Queries by themes**:
-With the identified societal themes, we perform semantic search queries on both news and movies datasets to find the most relevant articles and plots. If the topics retrieved from the previous steps are not sufficient, we will complement our analysis by doing some queries with other themes we find interesting.
+With the identified societal themes, perform semantic search queries on both news and movies datasets to find the most relevant articles and plots. If the topics retrieved from the previous steps are not sufficient, complement our analysis by doing some queries with other themes we find interesting.
 6. **Analyze relationship between themes in both movies and news articles**:
-We analyze the relative presence of themes in both datasets over time, visualize these trends and look for any interesting statistical correlation.
+Analyze the relative presence of themes in both datasets over time, visualize these trends and look for any interesting statistical correlation.
 7. **In-depth analysis: societal reflections in movies via genre and sentiment**:
-We want to explore how those societal topics are presented in movies and how they reflect society at various points in time. Typically, we will look for genres in which they are present and the kind of sentiments they are associated with -- positive emotions, negative, fear, hope, etc, in order to see what kind of depiction of society is preferred in movies.
+Explore how those societal topics are presented in movies and how they reflect society at various points in time. Typically, look for genres in which they are present and the kind of sentiments they are associated with -- positive emotions, negative, fear, hope, etc, in order to see what kind of depiction of society is preferred in movies.
 8. **Conclusion and Data Story**:
-We will create a nice interface to present our findings, display our plots and draw conclusions from what was observed in the previous steps.
+Create a nice interface to present our findings, display plots and draw conclusions from what was observed in the previous steps.
 ---
 
 ## Proposed Timeline  
 
 | **Date**          | **Task**                                                                                     |
 |--------------------|---------------------------------------------------------------------------------------------|
-| 28.10.24 – 15.11.24 | Find topic, data preprocessing/cleaning, initial analyses on plot summaries, news topics and movie genres. |
+| 28.10.24 – 15.11.24 | Find topic, data preprocessing / cleaning, initial analyses on plot summaries, news topics and movie genres. |
 | 18.11.24 – 24.11.24 | Homework 2   |
-| 25.11.24 – 01.12.24 | Finish movies topic modeling and news topic modeling, start in-depth analysis     |
+| 25.11.24 – 01.12.24 | Finish movies and news topic modeling, start in-depth analysis     |
 | 02.12.24 – 08.12.24 | Visualizations, draft preliminary conclusions about the correlation between movie and newspaper topics |
 | 09.12.24 – 15.12.24 | Report draft                                         |
 | 16.12.24 – 22.12.24 | Finalize the project: website, code cleaning, GitHub organization, and final presentation.  |
