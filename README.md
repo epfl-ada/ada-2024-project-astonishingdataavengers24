@@ -34,7 +34,7 @@ Movies often reflect the culture and society of a certain time and represent top
     - Metadata: keep only the year of release of the movies and categorize the movies by decade to better visualize the evolution across time, clean the genres of the movies as there are many redundant genres that can be combined in one. 
     - Word2Vec model word fitting:
           - Find a proper representation for words not in the model, or remove them.
-          - Remove words that have a representation but are not in the English language. Most of these are names. 
+          - Remove words that have a representation but are not in the English language (mainly names). 
 2. **Numerical representation for words**:
    **Word2Vec model from Gensim**: This NLP technique usually uses a large neural network to create word embeddings: a map from words to a vector representation in a high-dimensional space. The Word2Vec model is usually trained on a very large corpus (in our case, we use a model trained on a dump of the entire English Wikipedia) and  maps vectors with similar usage patterns to similar vectors. 
 3. **Numerical representation for movie descriptions**
