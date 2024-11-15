@@ -44,7 +44,7 @@ With the identified societal themes, we perform semantic search queries on both 
 6. **Analyze relationship between themes in both movies and news articles**:
 We analyze the relative presence of themes in both datasets over time, visualize these trends and look for any interesting statistical correlation.
 7. **In-depth analysis: societal reflections in movies via genre and sentiment**:
-We want to explore how those societal topics are presented in movies and how they reflect society at various points in time. Typically, we will look for genres in which they are present, the kind of sentiments they are associated with -- positive emotions, negative, fear, hope, etc, in order to see what kind of depiction of society is preferred in movies.
+We want to explore how those societal topics are presented in movies and how they reflect society at various points in time. Typically, we will look for genres in which they are present and the kind of sentiments they are associated with -- positive emotions, negative, fear, hope, etc, in order to see what kind of depiction of society is preferred in movies.
 8. **Conclusion and Data Story**:
 We will create a nice interface to present our findings, display our plots and draw conclusions from what was observed in the previous steps.
 ---
