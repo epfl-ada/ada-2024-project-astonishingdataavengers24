@@ -1,4 +1,4 @@
-# Parallel depiction of societal topics in movies and news : To what extent does cinema capture the key societal issues of its time, and how is this in sync with their representation in the media?
+# Parallel depiction of societal topics in movies and news : To what extent does cinema capture the key societal issues of its time, and how is this in sync with their representation in newspapers?
 
 
 ## Abstract 
