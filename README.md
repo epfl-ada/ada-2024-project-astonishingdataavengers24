@@ -28,7 +28,7 @@ Movies often reflect the culture and society of a certain time and represent top
 
 ## Methods  
 
-### Data Preparation  
+### Steps 
 1. **Data Preprocessing**:  
    - Data preprocessing: 
      - Remove stop words, punctuation to keep only keywords in the movies plot summaries and NYT articles
