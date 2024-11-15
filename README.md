@@ -53,7 +53,7 @@ Movies often reflect the culture and society of a certain time and represent top
 
 | **Date**          | **Task**                                                                                     |
 |--------------------|---------------------------------------------------------------------------------------------|
-| 28.10.24 – 15.11.24 | Find topic,data preprocessing/cleaning, initial analyses on plot summaries, news topics and movie genres. |
+| 28.10.24 – 15.11.24 | Find topic, data preprocessing/cleaning, initial analyses on plot summaries, news topics and movie genres. |
 | 18.11.24 – 24.11.24 | Homework 2   |
 | 25.11.24 – 01.12.24 | Finish movies topic modeling and news topic modeling, start in-depth analysis     |
 | 02.12.24 – 08.12.24 | Visualizations, draft preliminary conclusions about the correlation between movie and newspaper topics |
@@ -67,10 +67,10 @@ Movies often reflect the culture and society of a certain time and represent top
 | **Task**                     | **Team Member(s)**   |
 |-------------------------------|----------------------|
 | Data Cleaning and Processing  | Everyone |
-| Movies topic modeling | Antoine/Massimo|
+| Movies topic modeling | Antoine / Massimo |
 | News topic modeling               | Clémentine |
-| Topics queries and in-depth analysis   | 1 topic per group member (Everyone) |
-| Genre and Sentiment Analysis           | Sarah / Shuli|
+| Topics queries and in-depth analysis   | Everyone, 1 topic per group member |
+| Genre and Sentiment Analysis           | Sarah / Shuli |
 | Report Writing                | Everyone |
 
 ---
