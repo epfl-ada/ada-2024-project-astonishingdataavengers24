@@ -30,9 +30,8 @@ Movies often reflect the culture and society of a certain time and represent top
 
 ### Steps 
 1. **Data Preprocessing**:  
-   - Data preprocessing: 
-     - Remove stop words, punctuation to keep only keywords in the movies plot summaries and NYT articles
-     - Metadata: keep only the year of release of the movies and categorize the movies by decade to better visualize the evolution across time, clean the genres of the movies as there are many redundant genres that can be combined in one. 
+    - Remove stop words, punctuation to keep only keywords in the movies plot summaries and NYT articles
+    - Metadata: keep only the year of release of the movies and categorize the movies by decade to better visualize the evolution across time, clean the genres of the movies as there are many redundant genres that can be combined in one. 
     - Word2Vec model word fitting:
           - Find a proper representation for words not in the model, or remove them.
           - Remove words that have a representation but are not in the English language. Most of these are names. 
