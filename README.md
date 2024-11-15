@@ -41,12 +41,12 @@ Movies often reflect the culture and society of a certain time and represent top
     We take the news dataset we already preprocessed and we find the top 30 topics per decade by topic modeling. We’ll first try different topic modeling techniques, such as Latent Dirichlet Analysis (LDA) to find what seems the most suitable. We’ll find words to characterize such themes by finding an average word vector from the theme words and look for the closest word in our dictionary. We’ll select manually the most meaningful themes for further analysis and semantic search. 
 5. **Queries by themes**:
    Now that we have the societal themes we were looking for, we perform semantic search queries on both news and movies datasets to find the most relevant articles and plots to the theme. If the topics retrieved from the previous steps are not sufficient, we will complement our analysis by doing some queries with other themes we find interesting.
-6. **Analyze relationship between themes in movies and in news articles**
+6. **Analyze relationship between themes in movies and in news articles**: 
     We analyze the relative presence of themes for both datasets over time, visualize these trends and look for any interesting statistical correlation
-7. **In-depth analysis: societal reflections in movies via genre and sentiment**
+7. **In-depth analysis: societal reflections in movies via genre and sentiment**: 
     We also want to explore how those societal topics are presented in movies and how they reflect society at various points in time. Typically, we’ll look for genres in which they are present, the kind of sentiments they are associated with, i.e. positive emotions, negative, fear, hope, etc. We’ll analyze all that to see what kind of depiction of society is preferred in movies by a combination of all those elements.
-8. **Conclusion and Data Story**
-We’ll create a nice interface to present our findings, display our plots and draw conclusions from what we observed in the previous steps.
+8. **Conclusion and Data Story**:
+   We’ll create a nice interface to present our findings, display our plots and draw conclusions from what we observed in the previous steps.
 ---
 
 ## Proposed Timeline  
