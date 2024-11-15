@@ -16,12 +16,12 @@ def get_data():
     """
     Load the data from the csv file
     """
-    data = pd.read_csv('../data/MovieSummaries/plot_summaries_cleaned.csv')
-    meta_data = pd.read_csv('../data/MovieSummaries/movie.metadata.tsv', sep='\t', header=None)
+    data = pd.read_csv('data/MovieSummaries/plot_summaries_cleaned.csv')
+    meta_data = pd.read_csv('data/MovieSummaries/movie.metadata.tsv', sep='\t', header=None)
     meta_data.columns = ["movie_id",1,"movie_name",3,4,5,6,7,"genre"]
 
     valid_words = set()
-    with open('../data/words.txt') as word_file:
+    with open('data/words.txt') as word_file:
         valid_words = set(word_file.read().split())
 
     return data, meta_data, valid_words
@@ -30,10 +30,10 @@ def save_data(data):
     """
     Save the data to a csv file
     """
-    data.to_csv('../data/MovieSummaries/plot_summaries_cleaned_fit_model.csv', index=False)
+    data.to_csv('data/MovieSummaries/plot_summaries_cleaned_fit_model.csv', index=False)
 
 def get_model():
-    model = model = gensim.models.KeyedVectors.load_word2vec_format('../data/w2v/6/model.txt', binary=False)
+    model = model = gensim.models.KeyedVectors.load_word2vec_format('data/w2v/6/model.txt', binary=False)
     return model
 
 
