@@ -2,24 +2,16 @@
 
 
 ## Abstract 
-Movies often reflect the culture and society of a certain time and represent topics people are interested in. Our project explores how the themes and topics of movies have evolved over time, correlating them with trends observed in newspapers. Using the CMU Movie Summary Corpus, which includes data from over 42000 movies, our goal is to determine how societal issues are present in movies and how this presence evolves in comparison to the same topics in news articles. We want to examine their potential correlations and how they may appear shifted in time. To achieve this goal, we aim to detect important topics via topic modeling in both the CMU dataset and a news article dataset from the New York Times. From that, we will be able to compare the presence of these topics over time and how differently they are treated in both.
+Movies often reflect the culture and society of a certain time and represent topics people are interested in. Our project explores how the themes and topics of movies have evolved over time, correlating them with trends observed in newspapers. Using the CMU Movie Summary Corpus, which includes data from over 42000 movies, our goal is to determine how societal issues are present in movies and how this presence evolves in comparison to the same topics in news articles. We want to examine their potential correlations and how they may appear shifted in time. To achieve this goal, we aim to detect important topics via topic modeling in both the CMU dataset and a news article dataset from the New York Times. From that, we will be able to compare the representation of these topics over time.
 
 
 ---
 
 ## Research Questions  
-
-    1. How have specific themes in movies evolved over time? Do we see certain
-    themes gaining popularity in movies after some events happening in society?
-    2. Do movies initiate discussions about certain topics(e.g. environmental
-    issues) or do they reflect themes that are already popular in other media?
-    3. When movies address popular topics, how do their storytelling approaches
-    differ based on the type of topic? Which genres are commonly chosen to represent
-    these themes?
-    4. When a topic frequently appears in the news, do movies from that time tend to
-    address and represent the issue, or do they provide an escape by focusing on
-    unrelated themes? Additionally, how do the feelings portrayed in these films
-    align with public sentiment?
+1. How have specific themes in movies evolved over time? Do we see certain themes gaining popularity in movies after some events happening in society?
+2. Do movies initiate discussions about certain topics (e.g. environmental issues) or do they reflect themes that are already popular in newspapers?
+3. When movies address popular topics, how do their storytelling approaches differ based on the type of topic? Which genres are commonly chosen to represent these themes?
+4. When a topic frequently appears in the news, do movies from that time tend to address and represent the issue, or do they provide an escape by focusing on unrelated themes? Additionally, how do the feelings portrayed in these films align with public sentiment?
 
 
 ---
