@@ -392,3 +392,76 @@ def plot_top_genres_overall(x, df):
     # Title and display
     plt.title(f'Top {x} Movie Genres Overall')
     plt.show()
+    
+def plot_sentiment_pie_charts(df, x=5):
+    """
+    Plot pie charts of the top x genres for movies categorized by overall sentiment.
+
+    Arguments:
+        df: DataFrame containing sentiment analysis columns for each technique and genre information.
+        x: Number of top genres to display.
+    """
+    # Define the sentiment columns
+    sentiment_columns = {
+#         'HuggingFace': 'HFT_Sentiment',   # categorical (POSITIVE, NEGATIVE)
+        'TextBlob': 'TB_Sentiment',       # numerical (positive if > 0, negative if < 0)
+        'VADER': 'VADER_Sentiment',       # numerical (positive if > 0, negative if < 0)
+        'Emotions': 'Emotions_Sentiment', # categorical (POSITIVE, NEGATIVE)
+        'NLTK': 'NLTK_Sentiment'          # categorical (POSITIVE, NEGATIVE)
+    }
+
+    # Convert numerical sentiment columns to POSITIVE/NEGATIVE labels
+    df['TB_Sentiment_Label'] = df['TB_Sentiment'].apply(lambda x: 'POSITIVE' if x > 0 else 'NEGATIVE')
+    df['VADER_Sentiment_Label'] = df['VADER_Sentiment'].apply(lambda x: 'POSITIVE' if x > 0 else 'NEGATIVE')
+
+    # Create the "overall_sentiment" column
+    def determine_overall_sentiment(row):
+        # Gather all sentiment labels
+        labels = [
+#             row['HFT_Sentiment'],
+            row['TB_Sentiment_Label'],
+            row['VADER_Sentiment_Label'],
+            row['Emotions_Sentiment'],
+            row['NLTK_Sentiment']
+        ]
+        # Count occurrences of POSITIVE and NEGATIVE
+        positive_count = labels.count('POSITIVE')
+        negative_count = labels.count('NEGATIVE')
+        # Determine overall sentiment
+        return 'POSITIVE' if positive_count > negative_count else 'NEGATIVE'
+
+    df['Overall_sentiment'] = df.apply(determine_overall_sentiment, axis=1)
+
+    # Separate the dataframe into subsets for negative and positive sentiments
+    negative_subset = df[df['Overall_sentiment'] == 'NEGATIVE']
+    positive_subset = df[df['Overall_sentiment'] == 'POSITIVE']
+
+    # Helper function to plot the pie chart for a subset
+    def plot_pie(subset, title):
+        if subset.empty:
+            print(f"No data available for {title}.")
+            return
+        # Group by 'Grouped_genres' and count occurrences
+        genre_counts = subset['Grouped_genres'].explode().value_counts().reset_index(name='Count')
+        genre_counts.columns = ['Grouped_genres', 'Count']
+
+        # Get the top x genres
+        top_x_genre = genre_counts.head(x)
+
+        # Plot with pie chart
+        plt.figure(figsize=(10, 10))
+        plt.pie(
+            top_x_genre['Count'], 
+            labels=top_x_genre['Grouped_genres'], 
+            autopct='%1.1f%%', 
+            startangle=140, 
+            colors=sns.color_palette("tab20", len(top_x_genre))
+        )
+        plt.title(title)
+        plt.show()
+
+    # Plot for negative sentiment
+    plot_pie(negative_subset, f'Top {x} Movie Genres for Negative Sentiment')
+
+    # Plot for positive sentiment
+    plot_pie(positive_subset, f'Top {x} Movie Genres for Positive Sentiment')
