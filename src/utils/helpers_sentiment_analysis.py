@@ -359,3 +359,36 @@ def plot_top_genres(top_x, df):
     plt.tight_layout()
     plt.grid(True)
     plt.show()
+    
+def plot_top_genres_overall(x, df):
+    """
+    Plot a pie chart for the top x genres overall.
+    
+    Arguments:
+        x: the number of top genres to display
+        all_genre_distr: the DataFrame containing movie genre information
+    """
+    # Group by 'Grouped_genres' and count occurrences
+    df['Grouped_genres'] = df['Grouped_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+
+    # Exploding the 'Grouped_genres' column so that each genre becomes a separate row
+    df_expanded = df.explode('Grouped_genres')
+    genre_counts = df_expanded.groupby(['Grouped_genres']).size().reset_index(name="Count")
+    genre_counts = genre_counts.sort_values(by=['Count'], ascending=False)
+
+    # Get the top x genres overall
+    top_x_genre_overall = genre_counts.head(x)
+
+    # Plot with pie chart
+    plt.figure(figsize=(10, 10))
+    plt.pie(
+        top_x_genre_overall['Count'], 
+        labels=top_x_genre_overall['Grouped_genres'], 
+        autopct='%1.1f%%', 
+        startangle=140, 
+        colors=sns.color_palette("tab20", len(top_x_genre_overall))
+    )
+
+    # Title and display
+    plt.title(f'Top {x} Movie Genres Overall')
+    plt.show()
