@@ -466,6 +466,7 @@ def plot_sentiment_pie_charts(df, x=5):
 
     # Helper function to plot the pie chart for a subset
     def plot_pie(subset, title):
+        
         if subset.empty:
             print(f"No data available for {title}.")
             return
