@@ -1,4 +1,5 @@
 .ipynb_checkpoints
 .DS_Store
 /data/*
+!/data/df_movies
 /src/utils/__pycache__/*
