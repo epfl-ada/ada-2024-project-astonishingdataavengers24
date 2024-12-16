@@ -5,12 +5,13 @@ import plotly.express as px
 import plotly.graph_objects as go
 import ast
 
-def plot_overall_top_genres(df, x=10):
+def plot_overall_top_genres(df, theme, x=10):
     """
     Plot a pie chart for the top x genres overall.
     
     Arguments:
         df: the DataFrame containing movie data.
+        theme: String representing the theme.
         x: the number of top genres to display.
     """
     # Group by 'Grouped_genres' and count occurrences
@@ -23,15 +24,15 @@ def plot_overall_top_genres(df, x=10):
     genre_counts = df_expanded.groupby(['Grouped_genres']).size().reset_index(name="Count")
     genre_counts = genre_counts.sort_values(by=['Count'], ascending=False)
 
-    # Get the top x genres overall
+    # Get the overall top x genres
     top_x_genre_overall = genre_counts.head(x)
 
-    # Create an interactive pie chart using Plotly
+    # Pie chart
     fig = px.pie(
         top_x_genre_overall, 
         values='Count', 
         names='Grouped_genres',
-        title=f'Top {x} Movie Genres Overall',
+        title=f'Overall Top {x} Movie Genres for {theme} Theme',
         labels={
             'Grouped_genres': 'Genre',
             'Count': 'Count'
@@ -39,25 +40,21 @@ def plot_overall_top_genres(df, x=10):
         color_discrete_sequence=px.colors.qualitative.Set3
     )
 
-    # Customize layout
     fig.update_traces(textinfo='percent+label', pull=[0.1 if i == 0 else 0 for i in range(x)])
     fig.update_layout(height=600, width=600)
 
-    # Show the plot
     fig.show()
 
-def plot_top_genres_by_decade(df, x=10):
+def plot_top_genres_by_decade(df, theme, x=10):
     """
     Plot the top x genres per decade for each genre.
 
     Arguments:
         df: the DataFrame containing movie data.
+        theme: String representing the theme.
         x: the number of top genres per decade.
     """
-    # Ensure the 'Grouped_genres' column is properly evaluated if it's a string representation of a list
     df['Grouped_genres'] = df['Grouped_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
-
-    # Exploding the 'Grouped_genres' column so that each genre becomes a separate row
     df_expanded = df.explode('Grouped_genres')
 
     # Group by 'Decade' and 'Grouped_genres' and count occurrences
@@ -68,15 +65,12 @@ def plot_top_genres_by_decade(df, x=10):
 
     # Top x genres per decade
     top_x_genres_per_decade = genre_distribution.groupby(['Decade']).head(x)
+    top_x_genres_per_decade = top_x_genres_per_decade.copy() # Avoid warning
 
-    # Avoid warning using copy
-    top_x_genres_per_decade = top_x_genres_per_decade.copy()
-
-    # Normalize the counts by calculating the percentage for each genre
+    # Normalize counts
     decade_totals = top_x_genres_per_decade.groupby('Decade')['Count'].transform('sum')
     top_x_genres_per_decade['Percentage'] = (top_x_genres_per_decade['Count'] / decade_totals) * 100
 
-    # Pivot the data for Plotly
     top_genres_normalized = top_x_genres_per_decade.pivot(index='Decade', columns='Grouped_genres', values='Percentage').fillna(0)
 
     # Color palette
@@ -84,7 +78,7 @@ def plot_top_genres_by_decade(df, x=10):
     colors = sns.color_palette("Spectral", n_colors=len(unique_genres)) 
     genre_colors = dict(zip(unique_genres, [f"rgba({int(c[0]*255)}, {int(c[1]*255)}, {int(c[2]*255)}, 0.8)" for c in colors]))
 
-    # Create the stacked bar chart with Plotly
+    # Stacked bar chart
     fig = go.Figure()
 
     for genre in top_genres_normalized.columns:
@@ -95,9 +89,8 @@ def plot_top_genres_by_decade(df, x=10):
             marker_color=genre_colors[genre]
         ))
 
-    # Update layout
     fig.update_layout(
-        title=f'Top {x} Movie Genres By Decade',
+        title=f'Top {x} Movie Genres By Decade for {theme} Theme',
         xaxis=dict(title='Decade'),
         yaxis=dict(title='Percentage of Total Genres (%)', ticksuffix='%'),
         barmode='stack',
@@ -106,20 +99,19 @@ def plot_top_genres_by_decade(df, x=10):
         height=600,
         width=900
     )
-
-    # Show the plot
+    
     fig.show()
     
-def plot_top_genres_by_continent(data, top_x=5):
+def plot_top_genres_by_continent(df, top_x=5):
     """
     Plot the top x genres by decade for each continent.
 
     Arguments:
-        data: the DataFrame containing the data
+        df: the DataFrame containing movie data.
         top_x: the number of top genres per decade to display
     """
     #Count Occurrences of grouped genres per decade per continent
-    genre_counts = data.groupby(['Decade', 'Movie_continent', 'Grouped_genres']).size().reset_index(name='Count')
+    genre_counts = df.groupby(['Decade', 'Movie_continent', 'Grouped_genres']).size().reset_index(name='Count')
 
     # Get unique continents
     filtered_genre_counts = genre_counts[genre_counts['Movie_continent'] != 'Unknown']
@@ -165,7 +157,7 @@ def plot_top_genres_by_continent_overall(data, top_x=5):
     Plot the evolution of the overall top x genres per continent 
 
     Arguments:
-        data: DataFrame containing the data
+        df: the DataFrame containing movie data.
         top_x: the number of top genres overall to display
     """
     #Identify the top x genres overall
