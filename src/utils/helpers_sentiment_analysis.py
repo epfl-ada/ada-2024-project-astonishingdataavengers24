@@ -78,7 +78,7 @@ def huggingface_sentiment_analysis(texts, model_name="distilbert-base-uncased-fi
 
 def perform_sentiment_analysis(df):
     """
-    Performs various sentiment and emotion analyses on the on the plot summary.
+    Perform various sentiment and emotion analyses on the on the plot summary.
 
     Arguments:
         df: the DataFrame containing movie data.
@@ -163,13 +163,14 @@ def count_sentiments(df):
     return result
 
 
-def plot_sentiment_by_decade(df, technique='NLTK'):
+def plot_sentiment_by_decade(df, theme, technique='NLTK'):
     """
     Plot sentiment evolution (positive or negative) over decades for a specified sentiment analysis technique.
     
     Arguments:
         df: the DataFrame containing movie data.
-        technique (str): Sentiment analysis technique to plot ('NLTK', 'TextBlob', 'VADER', 'Emotions').
+        theme: String representing the theme.
+        technique: String representing sentiment analysis technique to plot ('NLTK', 'TextBlob', 'VADER', 'Emotions').
     """
     # Ensure given technique is valid
     techniques = ['NLTK', 'TextBlob', 'VADER', 'Emotions']
@@ -220,7 +221,7 @@ def plot_sentiment_by_decade(df, technique='NLTK'):
     ))
     
     fig.update_layout(
-        title=f'{technique} Sentiment Evolution by Decade',
+        title=f'{technique} Sentiment Evolution by Decade for {theme} Theme',
         xaxis=dict(title='Decade'),
         yaxis=dict(title='Percentage of Sentiment', ticksuffix='%'),
         barmode='stack',
@@ -231,12 +232,13 @@ def plot_sentiment_by_decade(df, technique='NLTK'):
     # Show the plot
     fig.show()
 
-def plot_combined_sentiment_by_decade(df):
+def plot_combined_sentiment_by_decade(df, theme):
     """
-    Plot combined Sentiment Evolution (Positive/Negative) over Decades by aggregating sentiment across all techniques.
+    Plot combined sentiment evolution (positive or negative) over decades by aggregating sentiment across all techniques.
     
     Arguments:
         df: the DataFrame containing movie data.
+        theme: String representing the theme.
     """
     # Define the sentiment columns for each technique
     techniques = {
@@ -291,7 +293,7 @@ def plot_combined_sentiment_by_decade(df):
 
     # Update layout
     fig.update_layout(
-        title='Combined Sentiment Evolution by Decade (Across All Techniques)',
+        title=f'Sentiment Evolution across all Techniques by Decade for {theme} Theme',
         xaxis=dict(title='Decade'),
         yaxis=dict(title='Percentage of Sentiment', ticksuffix='%'),
         barmode='stack',
@@ -302,12 +304,13 @@ def plot_combined_sentiment_by_decade(df):
     # Show the plot
     fig.show()
     
-def plot_sentiment_pie_charts(df, x=5):
+def plot_sentiment_pie_charts(df, theme, x=5):
     """
-    Plot interactive pie charts of the top x genres for movies categorized by overall sentiment using Plotly.
+    Plot interactive pie charts of the top x genres for movies categorized by overall sentiment.
 
     Arguments:
         df: the DataFrame containing movie data.
+        theme: String representing the theme.
         x: Number of top genres to display.
     """
     # Define the sentiment columns
@@ -372,16 +375,17 @@ def plot_sentiment_pie_charts(df, x=5):
         fig.update_layout(height=600, width=600)
         fig.show()
 
-    plot_pie(negative_subset, f'Top {x} Movie Genres for Negative Sentiment')
-    plot_pie(positive_subset, f'Top {x} Movie Genres for Positive Sentiment')
+    plot_pie(negative_subset, f'Top {x} Movie Genres for Negative Sentiment for {theme} Theme')
+    plot_pie(positive_subset, f'Top {x} Movie Genres for Positive Sentiment for {theme} Theme')
     
     
-def plot_top_movie_genres_by_sentiment(df, x=5):
+def plot_top_movie_genres_by_sentiment(df, theme, x=5):
     """
     Plot the top x movie genres categorized by sentiment.
     
     Arguments:
         df: the DataFrame containing movie data.
+        theme: String representing the theme.
         x: number of top genres to display.
     """
     # Define the sentiment columns
@@ -443,8 +447,8 @@ def plot_top_movie_genres_by_sentiment(df, x=5):
         fig.update_layout(height=600, width=600)
         fig.show()
         
-    plot_pie(negative_subset, f'Top {x} Movie Genres for Negative Sentiment')
-    plot_pie(positive_subset, f'Top {x} Movie Genres for Positive Sentiment')
+    plot_pie(negative_subset, f'Top {x} Movie Genres for Negative Sentiment for {theme} Theme')
+    plot_pie(positive_subset, f'Top {x} Movie Genres for Positive Sentiment for {theme} Theme')
     
     
 
@@ -510,7 +514,7 @@ def plot_emotion_counts(df, theme):
         x='Emotion',
         y='Count',
         color='Emotion',
-        title=f"Total Counts of Emotions Across Movies for theme: {theme}",
+        title=f"Total Counts of Emotions Across Movies for {theme} Theme",
         labels={'Emotion': 'Emotion', 'Count': 'Count'},
         text='Count', 
         #color_discrete_sequence=px.colors.qualitative.Set1 CHANGE COLOR IF NEEDED 
@@ -554,7 +558,7 @@ def plot_emotion_counts_by_decade(df, theme):
         x='Decade',
         y='Count',
         color='Emotion',
-        title=f"Counts of Emotions by Decade for {theme}",
+        title=f"Counts of Emotions by Decade for {theme} Theme",
         labels={'Decade': 'Decade', 'Count': 'Count', 'Emotion': 'Emotion'},
         markers=True
     )
@@ -568,7 +572,7 @@ def plot_emotion_counts_by_decade(df, theme):
     
 def plot_emotion_sentiment_counts(df, theme):
     """
-    Plots a bar chart showing the count of emotions categorized as sentiments (positive or negative).
+    Plot a bar chart showing the count of emotions categorized as sentiments (positive or negative).
     
     Arguments:
         df: the DataFrame containing movie data.
@@ -627,7 +631,8 @@ def plot_emotion_sentiment_counts(df, theme):
     
 def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
     """
-    Plots a sunburst chart with the hierarchy: Theme → Top Genres → Sentiment → Emotions.
+    Plot a sunburst chart with the hierarchy: Theme → Top Genres → Sentiment → Emotions.
+    
     Arguments:
         df: the DataFrame containing movie data.
         theme: theme of the movies in the dataframe.
@@ -686,7 +691,7 @@ def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
         df_emotion_expanded,
         path=['Theme', 'Genre', 'Sentiment', 'Emotion'],  # Define hierarchy
         values='Emotion_Count',  
-        title=f"Overall chart for {theme}",
+        title=f"Overall chart for {theme} Theme",
         labels={
             'Theme': 'Theme',
             'Genre': 'Genre',

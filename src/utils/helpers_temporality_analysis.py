@@ -21,18 +21,16 @@ def load_theme_dataset(name_of_csv):
     
 def plot_movie_frequency(df, theme, time_unit='Year'):
     """
-    Plot the evolution of the frequency of movies by either year or decade.
+    Plot the evolution of the frequency of movies by either year or decade, normalized by full dataset.
 
     Arguments:
         df: the DataFrame containing movie data.
         theme: String representing the theme.
-        time_unit: String, either 'Year' or 'Decade' to specify the time grouping.
+        time_unit: String specifying time unit ('Year' or 'Decade).
     """
     if time_unit == 'Year':
-        # Group by year
         time_column = 'Movie_release_date'
     elif time_unit == 'Decade':
-        # Group by decade
         time_column = 'Decade'
     else:
         raise ValueError("Invalid time_unit. Please choose either 'Year' or 'Decade'.")
@@ -88,9 +86,8 @@ def plot_movies_and_news_frequency(df_movie, df_news, theme, time_unit='Decade')
     Arguments:
         df_movie: the DataFrame containing movie data.
         df_news: the DataFrame containing news data.
-        df_full_movies: the full DataFrame containing all movie data (for normalization).
-        df_full_news: the full DataFrame containing all news data (for normalization).
-        time_unit: String, either 'Year' or 'Decade' to specify the time grouping.
+        theme: String representing the theme.
+        time_unit: String specifying time unit ('Year' or 'Decade).
     """
     if time_unit == 'Year':
         movie_time_column = 'Movie_release_date'
@@ -101,19 +98,19 @@ def plot_movies_and_news_frequency(df_movie, df_news, theme, time_unit='Decade')
     else:
         raise ValueError("Invalid time_unit. Please choose either 'Year' or 'Decade'.")
 
-    # Count number of movies per year/decade
+    # Count number of movies per time unit
     movie_evolution = df_movie.groupby(movie_time_column).size().reset_index(name='Movie_Count')
 
-    # Count number of news articles per year/decade
+    # Count number of news articles per time unit
     news_evolution = df_news.groupby(news_time_column).size().reset_index(name='News_Count')
     
     df_full_movies = pd.read_csv('../../data/MovieSummaries/movies_metadata_cleaned.csv')
     df_full_news = pd.read_csv() #path to news full dataset
 
-    # Count total number of movies per year/decade in the full dataset
+    # Count total number of movies per time unit in the full dataset
     total_movies = df_full_movies.groupby(movie_time_column).size().reset_index(name='Total_Movies')
 
-    # Count total number of news articles per year/decade in the full dataset
+    # Count total number of news articles per time unit in the full dataset
     total_news = df_full_news.groupby(news_time_column).size().reset_index(name='Total_News')
 
     # Merge movie data with total movie data for normalization
@@ -124,10 +121,10 @@ def plot_movies_and_news_frequency(df_movie, df_news, theme, time_unit='Decade')
     news_evolution = news_evolution.merge(total_news, on=news_time_column, how='left')
     news_evolution['Normalized_News_Count'] = news_evolution['News_Count'] / news_evolution['Total_News']
 
-    # Merge movie and news data
+    # Merge movies and news data
     evolution = pd.merge(movie_evolution, news_evolution, left_on=movie_time_column, right_on=news_time_column, how='outer').fillna(0)
     
-    # Create the plot
+    # Line plot
     fig = px.line(
         evolution,
         x=movie_time_column,

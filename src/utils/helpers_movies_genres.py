@@ -5,12 +5,13 @@ import plotly.express as px
 import plotly.graph_objects as go
 import ast
 
-def plot_overall_top_genres(df, x=10):
+def plot_overall_top_genres(df, theme, x=10):
     """
     Plot a pie chart for the top x genres overall.
     
     Arguments:
         df: the DataFrame containing movie data.
+        theme: String representing the theme.
         x: the number of top genres to display.
     """
     # Group by 'Grouped_genres' and count occurrences
@@ -23,15 +24,15 @@ def plot_overall_top_genres(df, x=10):
     genre_counts = df_expanded.groupby(['Grouped_genres']).size().reset_index(name="Count")
     genre_counts = genre_counts.sort_values(by=['Count'], ascending=False)
 
-    # Get the top x genres overall
+    # Get the overall top x genres
     top_x_genre_overall = genre_counts.head(x)
 
-    # Create an interactive pie chart using Plotly
+    # Pie chart
     fig = px.pie(
         top_x_genre_overall, 
         values='Count', 
         names='Grouped_genres',
-        title=f'Top {x} Movie Genres Overall',
+        title=f'Overall Top {x} Movie Genres for {theme} Theme',
         labels={
             'Grouped_genres': 'Genre',
             'Count': 'Count'
@@ -44,12 +45,13 @@ def plot_overall_top_genres(df, x=10):
 
     fig.show()
 
-def plot_top_genres_by_decade(df, x=10):
+def plot_top_genres_by_decade(df, theme, x=10):
     """
     Plot the top x genres per decade for each genre.
 
     Arguments:
         df: the DataFrame containing movie data.
+        theme: String representing the theme.
         x: the number of top genres per decade.
     """
     df['Grouped_genres'] = df['Grouped_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
@@ -88,7 +90,7 @@ def plot_top_genres_by_decade(df, x=10):
         ))
 
     fig.update_layout(
-        title=f'Top {x} Movie Genres By Decade',
+        title=f'Top {x} Movie Genres By Decade for {theme} Theme',
         xaxis=dict(title='Decade'),
         yaxis=dict(title='Percentage of Total Genres (%)', ticksuffix='%'),
         barmode='stack',
