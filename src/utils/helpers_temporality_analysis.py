@@ -133,20 +133,14 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
 
     # Merge movie data with total movie data for normalization
     movie_evolution = movie_evolution.merge(total_movies, on=movie_time_column, how='left')
-#     movie_evolution['Normalized_Movie_Count'] = movie_evolution['Movie_Count'] / movie_evolution['Total_Movies']
+    movie_evolution['Normalized_Movie_Count'] = movie_evolution['Movie_Count'] / movie_evolution['Total_Movies']
 
     # Merge news data with total news data for normalization
     news_evolution = news_evolution.merge(total_news, on=news_time_column, how='left')
-#     news_evolution['Normalized_News_Count'] = news_evolution['News_Count'] / news_evolution['Total_News']
-    
-    movie_evolution['Normalized_Movie_Count'] = movie_evolution['Movie_Count'] / movie_evolution['Total_Movies'].replace(0, np.nan)
-    news_evolution['Normalized_News_Count'] = news_evolution['News_Count'] / news_evolution['Total_News'].replace(0, np.nan)
-    
-    movie_evolution['Movie_Count'].fillna(0, inplace=True)
-    news_evolution['News_Count'].fillna(0, inplace=True)
+    news_evolution['Normalized_News_Count'] = news_evolution['News_Count'] / news_evolution['Total_News']
 
     # Merge movies and news data
-    evolution = pd.merge(movie_evolution, news_evolution, left_on=movie_time_column, right_on=news_time_column, how='outer').fillna(0)
+    evolution = pd.merge(movie_evolution, news_evolution, left_on=movie_time_column, right_on=news_time_column, how='outer')
     
     # Line plot
     fig = px.line(
