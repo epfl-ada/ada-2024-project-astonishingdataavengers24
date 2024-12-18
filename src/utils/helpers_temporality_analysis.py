@@ -98,7 +98,6 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
     else:
         raise ValueError("Invalid time_unit. Please choose either 'Year' or 'Decade'.")
         
-    # [TODO] Complete list of all the themes
     if theme == 'Technology':
         theme_column = 'technology'
     elif theme == 'Cold War':
@@ -111,6 +110,12 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
         theme_column = 'gender_equality'
     elif theme == 'Migration':
         theme_column = 'migration'
+    elif theme == 'Economic Crisis':
+        theme_column = 'economy'
+    elif theme == 'Vietnam War':
+        theme_column = 'vietnam'
+    elif theme == 'World War II':
+        theme_column = 'ww2'
     else:
         raise ValueError("Invalid theme. Please choose among 'Technology', 'Cold War', 'Economy', 'Health', 'Gender Equality', 'Migration'.")
 
@@ -166,7 +171,9 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
     
     # Adjust x-axis range when 'Year'
     if time_unit == 'Year':
-        fig.update_layout(xaxis=dict(range=[1900, 2015]))
+        fig.update_layout(xaxis=dict(range=[1960, 2015])) # News dataset have articles from 1965
+    else:
+        fig.update_layout(xaxis=dict(range=[1950, 2020]))
     
     fig.show()
     
