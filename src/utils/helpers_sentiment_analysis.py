@@ -210,14 +210,14 @@ def plot_sentiment_by_decade(df, theme, technique='NLTK'):
         x=sentiment_counts['Decade'],
         y=sentiment_counts['Positive_Percentage'],
         name='Positive',
-        marker_color='blue'
+        marker_color='#ae0001'
     ))
 
     fig.add_trace(go.Bar(
         x=sentiment_counts['Decade'],
         y=sentiment_counts['Negative_Percentage'],
         name='Negative',
-        marker_color='orange'
+        marker_color='#eeba30'
     ))
     
     fig.update_layout(
