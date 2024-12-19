@@ -77,21 +77,6 @@ def plot_movie_frequency(df, theme, time_unit='Year'):
     )
     fig.show()
 
-import pandas as pd
-import plotly.express as px
-
-def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
-    """
-    Plot the evolution of the frequency of movies and news per decade or year, normalized by the full datasets.
-
-    Arguments:
-        df_movie: DataFrame containing movie data.
-        theme: String representing the theme (column name in df_news).
-        time_unit: String specifying time unit ('Year' or 'Decade').
-    """
-    import pandas as pd
-import plotly.express as px
-
 def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
     """
     Plot the evolution of the frequency of movies and news per decade or year, normalized by the full datasets.
