@@ -4,9 +4,11 @@ import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 import ast
+
 COLOR_PALETTE = px.colors.qualitative.Prism
 POSITIVE_MARKER = px.colors.qualitative.Prism[2],  # Cyan
 NEGATIVE_MARKER = px.colors.qualitative.Prism[7]   # Red
+
 def plot_overall_top_genres(df, theme, x=10):
     """
     Plot a pie chart for the top x genres overall.
@@ -15,6 +17,9 @@ def plot_overall_top_genres(df, theme, x=10):
         df: the DataFrame containing movie data.
         theme: String representing the theme.
         x: the number of top genres to display.
+        
+    Returns:
+        Plotly figure.
     """
     # Group by 'Grouped_genres' and count occurrences
     df['Grouped_genres'] = df['Grouped_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
@@ -45,7 +50,7 @@ def plot_overall_top_genres(df, theme, x=10):
     fig.update_traces(textinfo='percent+label', pull=[0.1 if i == 0 else 0 for i in range(x)])
     fig.update_layout(height=600, width=600)
 
-    fig.show()
+    return fig
 
 def plot_top_genres_by_decade(df, theme, x=10):
     """
@@ -55,6 +60,9 @@ def plot_top_genres_by_decade(df, theme, x=10):
         df: the DataFrame containing movie data.
         theme: String representing the theme.
         x: the number of top genres per decade.
+        
+    Returns:
+        Plotly figure.
     """
     df['Grouped_genres'] = df['Grouped_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
     df_expanded = df.explode('Grouped_genres')
@@ -102,7 +110,7 @@ def plot_top_genres_by_decade(df, theme, x=10):
         width=900
     )
     
-    fig.show()
+    return fig
     
 def plot_top_genres_by_continent(df, top_x=5):
     """

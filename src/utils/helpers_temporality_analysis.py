@@ -6,6 +6,8 @@ import sys
 import os
 import ast
 
+import dask.dataframe as dd
+
 def load_theme_dataset(name_of_csv):
     """ 
     Load the dataset per theme 
@@ -31,6 +33,9 @@ def plot_movie_frequency(df, theme, time_unit='Year'):
         df: the DataFrame containing movie data.
         theme: String representing the theme.
         time_unit: String specifying time unit ('Year' or 'Decade).
+        
+    Returns:
+        Plotly figure.
     """
     if time_unit == 'Year':
         time_column = 'Movie_release_date'
@@ -78,7 +83,8 @@ def plot_movie_frequency(df, theme, time_unit='Year'):
         xaxis=dict(tickangle=45),
         template="plotly_white"
     )
-    fig.show()
+    
+    return fig
 
 def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
     """
@@ -88,6 +94,9 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
         df_movie: DataFrame containing movie data.
         theme: String representing the theme (column name in df_news).
         time_unit: String specifying time unit ('Year' or 'Decade').
+        
+    Returns:
+        Plotly figure.
     """
 
     df_movie = df_movie[(df_movie['Movie_release_date'] >= 1965) & (df_movie['Movie_release_date'] <= 2015)]
@@ -159,12 +168,9 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
         markers=True
     )
     
+    # Use specific colors
     fig.update_traces(name="Movies", selector=dict(name="Normalized_Movie_Count"), line=dict(color=MOVIES_MARKER, width=2))
-    # Update the traces with specific colors
-#     fig.update_traces(name="Movies", selector=dict(name="Movies"), line=dict(color=MOVIES_MARKER, width=2))
-#     fig.update_traces(name="News", selector=dict(name="News"), line=dict(color=NEWS_MARKER, width=2))
     fig.update_traces(name="News", selector=dict(name="Normalized_News_Count"), line=dict(color=NEWS_MARKER, width=2))
-#     fig.update_traces(line=dict(width=2))
 
     fig.update_layout(
         xaxis_title=time_unit,
@@ -173,8 +179,11 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
         xaxis=dict(tickangle=45),
         template="plotly_white"
     )
-    
-    fig.show()
+        
+    return fig
+      
+
+
 
 
 

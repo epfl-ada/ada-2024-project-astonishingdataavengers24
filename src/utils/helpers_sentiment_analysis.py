@@ -73,15 +73,6 @@ def classify_sentiment_from_emotions(emotions):
     negative_score = sum(emotions.get(emotion, 0) for emotion in negative_emotions)
     return 'POSITIVE' if positive_score > negative_score else 'NEGATIVE'
 
-def huggingface_sentiment_analysis(texts, model_name="distilbert-base-uncased-finetuned-sst-2-english", batch_size=16):
-    """Hugging Face Transformer Sentiment Analysis in batches"""
-    sentiment_analyzer = pipeline("sentiment-analysis", model=model_name, truncation=True)
-    results = []
-    for i in range(0, len(texts), batch_size):
-        batch = texts[i:i + batch_size]
-        results.extend(sentiment_analyzer(batch))
-    return results
-
 def perform_sentiment_analysis(df):
     """
     Perform various sentiment and emotion analyses on the on the plot summary.
@@ -114,12 +105,6 @@ def perform_sentiment_analysis(df):
 
     # Sentiment from Emotions
     df.loc[:, 'Emotions_Sentiment'] = df['Emotions'].apply(classify_sentiment_from_emotions)
-
-    # Huggingface Sentiment
-    # batch_results = huggingface_sentiment_analysis(df['plot_summary'].tolist())
-    # df.loc[:, 'HFT_Sentiment_Result'] = batch_results
-    # df.loc[:, 'HFT_Sentiment'] = df['HFT_Sentiment_Result'].apply(lambda x: x['label'])
-    # df.loc[:, 'HFT_Score'] = df['HFT_Sentiment_Result'].apply(lambda x: x['score'])
 
     return df
 
@@ -168,64 +153,13 @@ def count_sentiments(df):
 
     return result
 
-
 def plot_sentiment_by_decade(df, theme, technique='NLTK'):
     """
-    Generate a Plotly bar chart for sentiment evolution by decade for a specific technique.
-    Returns the Plotly Figure object for integration into subplots.
-    """
-    # Ensure given technique is valid
-    techniques = ['NLTK', 'TextBlob', 'VADER', 'Emotions']
-    if technique not in techniques:
-        raise ValueError(f"Invalid technique. Choose from: {', '.join(techniques)}")
-
-    positive_label = 'POSITIVE'
-    negative_label = 'NEGATIVE'
-
-    if technique == 'NLTK':
-        sentiment_col = 'NLTK_Sentiment'
-    elif technique == 'TextBlob':
-        sentiment_col = 'TB_Sentiment'
-    elif technique == 'VADER':
-        sentiment_col = 'VADER_Sentiment'
-    elif technique == 'Emotions':
-        sentiment_col = 'Emotions_Sentiment'
-
-    if technique in ['TextBlob', 'VADER']:
-        # Use numerical sentiment values for TextBlob and VADER
-        sentiment_counts = df.groupby('Decade')[sentiment_col].apply(lambda x: (x > 0).sum()).reset_index(name='POSITIVE')
-        sentiment_counts['NEGATIVE'] = df.groupby('Decade')[sentiment_col].apply(lambda x: (x < 0).sum()).reset_index(name='NEGATIVE')['NEGATIVE']
-    else:
-        # Use positive and negative labels for NLTK and Emotions
-        sentiment_counts = df.groupby('Decade')[sentiment_col].value_counts().unstack(fill_value=0).reset_index()
-        sentiment_counts.rename(columns={positive_label: 'POSITIVE', negative_label: 'NEGATIVE'}, inplace=True)
-
-    # Normalize counts
-    sentiment_counts['Total'] = sentiment_counts['POSITIVE'] + sentiment_counts['NEGATIVE']
-    sentiment_counts['Positive_Percentage'] = (sentiment_counts['POSITIVE'] / sentiment_counts['Total']) * 100
-    sentiment_counts['Negative_Percentage'] = (sentiment_counts['NEGATIVE'] / sentiment_counts['Total']) * 100
-
-    # Create traces for the bar chart
-    positive_trace = go.Bar(
-        x=sentiment_counts['Decade'],
-        y=sentiment_counts['Positive_Percentage'],
-        name='Positive',
-        marker_color=POSITIVE_MARKER
-    )
-
-    negative_trace = go.Bar(
-        x=sentiment_counts['Decade'],
-        y=sentiment_counts['Negative_Percentage'],
-        name='Negative',
-        marker_color=NEGATIVE_MARKER
-    )
+    Plot sentiment evolution by decade for a specific technique.
     
-    return positive_trace, negative_trace
-
-def plot_sentiment_by_decade(df, theme, technique='NLTK'):
-    """
-    Generate a Plotly bar chart for sentiment evolution by decade for a specific technique.
-    Returns the Plotly Figure object for integration into subplots.
+    Arguments:
+        df: DataFrame containing the data.
+        theme: Theme to analyze.
     """
     # Ensure given technique is valid
     techniques = ['NLTK', 'TextBlob', 'VADER', 'Emotions']
@@ -276,7 +210,6 @@ def plot_sentiment_by_decade(df, theme, technique='NLTK'):
     return positive_trace, negative_trace
 
 
-
 def plot_all_sentiments(df, theme):
     """
     Plot sentiment evolution for all techniques in one figure with four subplots.
@@ -284,6 +217,9 @@ def plot_all_sentiments(df, theme):
     Arguments:
         df: DataFrame containing the data.
         theme: Theme to analyze.
+        
+    Returns:
+        Plotly figure.
     """
     techniques = ['NLTK', 'TextBlob', 'VADER', 'Emotions']
     
@@ -310,7 +246,6 @@ def plot_all_sentiments(df, theme):
         fig.add_trace(positive_trace, row=row, col=col)
         fig.add_trace(negative_trace, row=row, col=col)
 
-    # Update layout
     fig.update_layout(
         title=f'Sentiment Evolution by Decade for Theme: {theme}',
         xaxis_title='Decade',
@@ -322,8 +257,7 @@ def plot_all_sentiments(df, theme):
         template='plotly_white',
     )
     
-    # Show the plot
-    fig.show()
+    return fig
 
 
 def plot_combined_sentiment_by_decade(df, theme):
@@ -333,6 +267,9 @@ def plot_combined_sentiment_by_decade(df, theme):
     Arguments:
         df: the DataFrame containing movie data.
         theme: String representing the theme.
+        
+    Returns:
+        Plotly figure.
     """
     # Define the sentiment columns for each technique
     techniques = {
@@ -368,7 +305,7 @@ def plot_combined_sentiment_by_decade(df, theme):
     sentiment_counts = sentiment_counts.sort_index(ascending=True)
     sentiment_normalized = sentiment_counts[['Positive_Percentage', 'Negative_Percentage']]
 
-    # Create the stacked bar chart with Plotly
+    # Stacked bar chart
     fig = go.Figure()
 
     fig.add_trace(go.Bar(
@@ -385,7 +322,6 @@ def plot_combined_sentiment_by_decade(df, theme):
         marker_color=NEGATIVE_MARKER
     ))
 
-    # Update layout
     fig.update_layout(
         title=f'Sentiment Evolution across all Techniques by Decade for {theme} Theme',
         xaxis=dict(title='Decade'),
@@ -394,8 +330,7 @@ def plot_combined_sentiment_by_decade(df, theme):
         legend=dict(title='Sentiment')
     )
 
-    # Show the plot
-    fig.show()
+    return fig
     
 def plot_sentiment_pie_charts(df, theme, x=5):
     """
@@ -405,10 +340,12 @@ def plot_sentiment_pie_charts(df, theme, x=5):
         df: the DataFrame containing movie data.
         theme: String representing the theme.
         x: Number of top genres to display.
+        
+    Returns:
+        Plotly figure.
     """
     # Define the sentiment columns
     sentiment_columns = {
-#         'HuggingFace': 'HFT_Sentiment',   # categorical (POSITIVE, NEGATIVE)
         'TextBlob': 'TB_Sentiment',       # numerical (positive if > 0, negative if < 0)
         'VADER': 'VADER_Sentiment',       # numerical (positive if > 0, negative if < 0)
         'Emotions': 'Emotions_Sentiment', # categorical (POSITIVE, NEGATIVE)
@@ -421,17 +358,17 @@ def plot_sentiment_pie_charts(df, theme, x=5):
 
     # Create the "overall_sentiment" column
     def determine_overall_sentiment(row):
-        # Gather all sentiment labels
         labels = [
-#             row['HFT_Sentiment'],
             row['TB_Sentiment_Label'],
             row['VADER_Sentiment_Label'],
             row['Emotions_Sentiment'],
             row['NLTK_Sentiment']
         ]
+        
         # Count occurrences of POSITIVE and NEGATIVE
         positive_count = labels.count('POSITIVE')
         negative_count = labels.count('NEGATIVE')
+        
         # Determine overall sentiment
         return 'POSITIVE' if positive_count > negative_count else 'NEGATIVE'
 
@@ -466,10 +403,11 @@ def plot_sentiment_pie_charts(df, theme, x=5):
         # Customize layout
         fig.update_traces(textinfo='percent+label', pull=[0.1 if i == 0 else 0 for i in range(len(top_x_genre))])
         fig.update_layout(height=600, width=600)
-        fig.show()
 
     plot_pie(negative_subset, f'Top {x} Movie Genres for Negative Sentiment for {theme} Theme')
     plot_pie(positive_subset, f'Top {x} Movie Genres for Positive Sentiment for {theme} Theme')
+    
+    return fig
     
     
 def plot_top_movie_genres_by_sentiment(df, theme, x=5):
@@ -480,15 +418,18 @@ def plot_top_movie_genres_by_sentiment(df, theme, x=5):
         df: the DataFrame containing movie data.
         theme: String representing the theme.
         x: number of top genres to display.
+        
+    Returns:
+        A dictionary with figures for 'negative' and 'positive' sentiments.
     """
     # Define the sentiment columns
     sentiment_columns = {
-#         'HuggingFace': 'HFT_Sentiment',   # categorical (POSITIVE, NEGATIVE)
         'TextBlob': 'TB_Sentiment',       # numerical (positive if > 0, negative if < 0)
         'VADER': 'VADER_Sentiment',       # numerical (positive if > 0, negative if < 0)
         'Emotions': 'Emotions_Sentiment', # categorical (POSITIVE, NEGATIVE)
         'NLTK': 'NLTK_Sentiment'          # categorical (POSITIVE, NEGATIVE)
     }
+    
     # Convert numerical sentiment columns to POSITIVE/NEGATIVE labels
     df['TB_Sentiment_Label'] = df['TB_Sentiment'].apply(lambda x: 'POSITIVE' if x > 0 else 'NEGATIVE')
     df['VADER_Sentiment_Label'] = df['VADER_Sentiment'].apply(lambda x: 'POSITIVE' if x > 0 else 'NEGATIVE')
@@ -497,7 +438,6 @@ def plot_top_movie_genres_by_sentiment(df, theme, x=5):
     def determine_overall_sentiment(row):
         # Gather all sentiment labels
         labels = [
-    #             row['HFT_Sentiment'],
             row['TB_Sentiment_Label'],
             row['VADER_Sentiment_Label'],
             row['Emotions_Sentiment'],
@@ -508,7 +448,9 @@ def plot_top_movie_genres_by_sentiment(df, theme, x=5):
         negative_count = labels.count('NEGATIVE')
         # Determine overall sentiment
         return 'POSITIVE' if positive_count > negative_count else 'NEGATIVE'
+    
     df['Overall_sentiment'] = df.apply(determine_overall_sentiment, axis=1)
+    
     # Separate the dataframe into subsets for negative and positive sentiments
     negative_subset = df[df['Overall_sentiment'] == 'NEGATIVE']
     positive_subset = df[df['Overall_sentiment'] == 'POSITIVE']
@@ -517,7 +459,7 @@ def plot_top_movie_genres_by_sentiment(df, theme, x=5):
     def plot_pie(subset, title):
         if subset.empty:
             print(f"No data available for {title}.")
-            return
+            return None
         # Group by 'Grouped_genres' and count occurrences
         genre_counts = subset['Grouped_genres'].explode().value_counts().reset_index(name='Count')
         genre_counts.columns = ['Grouped_genres', 'Count']
@@ -533,17 +475,21 @@ def plot_top_movie_genres_by_sentiment(df, theme, x=5):
                 'Grouped_genres': 'Genre',
                 'Count': 'Count'
             },
-            color_discrete_sequence=COLOR_PALETTE
+            color_discrete_sequence=COLOR_PALETTE  # Default color palette
         )
         # Customize layout
         fig.update_traces(textinfo='percent+label', pull=[0.1 if i == 0 else 0 for i in range(len(top_x_genre))])
         fig.update_layout(height=600, width=600)
-        fig.show()
-        
-    plot_pie(negative_subset, f'Top {x} Movie Genres for Negative Sentiment for {theme} Theme')
-    plot_pie(positive_subset, f'Top {x} Movie Genres for Positive Sentiment for {theme} Theme')
+        return fig
+
+    # Generate and return the figures
+    negative_fig = plot_pie(negative_subset, f'Top {x} Movie Genres for Negative Sentiment for {theme} Theme')
+    positive_fig = plot_pie(positive_subset, f'Top {x} Movie Genres for Positive Sentiment for {theme} Theme')
     
-    
+    return {
+        'negative': negative_fig,
+        'positive': positive_fig
+    }
 
 """
 
@@ -583,6 +529,9 @@ def plot_emotion_counts(df, theme):
     Arguments:
         df: the DataFrame containing movie data.
         theme: theme of the movies in the dataframe.
+        
+    Returns:
+        Plotly figure.
     """
 
     def aggregate_emotions(emotions_series):
@@ -614,7 +563,8 @@ def plot_emotion_counts(df, theme):
     )
     
     fig.update_layout(xaxis_title="Emotion", yaxis_title="Total Count")
-    fig.show()
+    
+    return fig
     
 def plot_emotion_counts_by_decade(df, theme):
     """
@@ -623,6 +573,9 @@ def plot_emotion_counts_by_decade(df, theme):
     Arguments:
         df: the DataFrame containing movie data.
         theme: theme of the movies in the dataframe.
+        
+    Returns:
+        Plotly figure.
     """
     def aggregate_emotions_by_decade(df):
         """
@@ -662,7 +615,7 @@ def plot_emotion_counts_by_decade(df, theme):
         xaxis=dict(dtick=10)
     )
     
-    fig.show()
+    return fig
     
 def plot_emotion_sentiment_counts(df, theme):
     """
@@ -671,6 +624,9 @@ def plot_emotion_sentiment_counts(df, theme):
     Arguments:
         df: the DataFrame containing movie data.
         theme: theme of the movies in the dataframe.
+        
+    Returns:
+        Plotly figure.
     """
     # Define emotion groups
     positive_emotions, negative_emotions = emotions_group()
@@ -722,7 +678,7 @@ def plot_emotion_sentiment_counts(df, theme):
 
     fig.update_layout(xaxis_title="Sentiment", yaxis_title="Total Emotion Count")
 
-    fig.show()
+    return fig
     
 def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
     """
@@ -732,6 +688,9 @@ def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
         df: the DataFrame containing movie data.
         theme: theme of the movies in the dataframe.
         x: number of top genres to include in the chart (default is 10).
+        
+    Returns:
+        Plotly figure.
     """
 
     (positive_emotions, negative_emotions) = emotions_group()
@@ -798,4 +757,4 @@ def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
         color_continuous_scale='RdBu',
     )
 
-    fig.show()
+    return fig
