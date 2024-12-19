@@ -1,8 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import ast
 
 import nltk
@@ -16,6 +18,10 @@ from nrclex import NRCLex
 # nltk.download('vader_lexicon')
 # nltk.download('punkt')
 # nltk.download('wordnet')
+
+COLOR_PALETTE = px.colors.qualitative.Prism
+POSITIVE_MARKER = px.colors.qualitative.Prism[2]  # Cyan
+NEGATIVE_MARKER = px.colors.qualitative.Prism[7]   # Red
 
 def preprocess_text(text):
     """Preprocess text: tokenization, lemmatization"""
@@ -165,12 +171,8 @@ def count_sentiments(df):
 
 def plot_sentiment_by_decade(df, theme, technique='NLTK'):
     """
-    Plot sentiment evolution (positive or negative) over decades for a specified sentiment analysis technique.
-    
-    Arguments:
-        df: the DataFrame containing movie data.
-        theme: String representing the theme.
-        technique: String representing sentiment analysis technique to plot ('NLTK', 'TextBlob', 'VADER', 'Emotions').
+    Generate a Plotly bar chart for sentiment evolution by decade for a specific technique.
+    Returns the Plotly Figure object for integration into subplots.
     """
     # Ensure given technique is valid
     techniques = ['NLTK', 'TextBlob', 'VADER', 'Emotions']
@@ -203,34 +205,126 @@ def plot_sentiment_by_decade(df, theme, technique='NLTK'):
     sentiment_counts['Positive_Percentage'] = (sentiment_counts['POSITIVE'] / sentiment_counts['Total']) * 100
     sentiment_counts['Negative_Percentage'] = (sentiment_counts['NEGATIVE'] / sentiment_counts['Total']) * 100
 
-    # Stacked bar chart
-    fig = go.Figure()
-
-    fig.add_trace(go.Bar(
+    # Create traces for the bar chart
+    positive_trace = go.Bar(
         x=sentiment_counts['Decade'],
         y=sentiment_counts['Positive_Percentage'],
         name='Positive',
-        marker_color='#ae0001'
-    ))
+        marker_color=POSITIVE_MARKER
+    )
 
-    fig.add_trace(go.Bar(
+    negative_trace = go.Bar(
         x=sentiment_counts['Decade'],
         y=sentiment_counts['Negative_Percentage'],
         name='Negative',
-        marker_color='#eeba30'
-    ))
+        marker_color=NEGATIVE_MARKER
+    )
     
-    fig.update_layout(
-        title=f'{technique} Sentiment Evolution by Decade for {theme} Theme',
-        xaxis=dict(title='Decade'),
-        yaxis=dict(title='Percentage of Sentiment', ticksuffix='%'),
-        barmode='stack',
-        legend=dict(title='Sentiment'),
-        template='plotly_white'
+    return positive_trace, negative_trace
+
+def plot_sentiment_by_decade(df, theme, technique='NLTK'):
+    """
+    Generate a Plotly bar chart for sentiment evolution by decade for a specific technique.
+    Returns the Plotly Figure object for integration into subplots.
+    """
+    # Ensure given technique is valid
+    techniques = ['NLTK', 'TextBlob', 'VADER', 'Emotions']
+    if technique not in techniques:
+        raise ValueError(f"Invalid technique. Choose from: {', '.join(techniques)}")
+
+    positive_label = 'POSITIVE'
+    negative_label = 'NEGATIVE'
+
+    if technique == 'NLTK':
+        sentiment_col = 'NLTK_Sentiment'
+    elif technique == 'TextBlob':
+        sentiment_col = 'TB_Sentiment'
+    elif technique == 'VADER':
+        sentiment_col = 'VADER_Sentiment'
+    elif technique == 'Emotions':
+        sentiment_col = 'Emotions_Sentiment'
+
+    if technique in ['TextBlob', 'VADER']:
+        # Use numerical sentiment values for TextBlob and VADER
+        sentiment_counts = df.groupby('Decade')[sentiment_col].apply(lambda x: (x > 0).sum()).reset_index(name='POSITIVE')
+        sentiment_counts['NEGATIVE'] = df.groupby('Decade')[sentiment_col].apply(lambda x: (x < 0).sum()).reset_index(name='NEGATIVE')['NEGATIVE']
+    else:
+        # Use positive and negative labels for NLTK and Emotions
+        sentiment_counts = df.groupby('Decade')[sentiment_col].value_counts().unstack(fill_value=0).reset_index()
+        sentiment_counts.rename(columns={positive_label: 'POSITIVE', negative_label: 'NEGATIVE'}, inplace=True)
+
+    # Normalize counts
+    sentiment_counts['Total'] = sentiment_counts['POSITIVE'] + sentiment_counts['NEGATIVE']
+    sentiment_counts['Positive_Percentage'] = (sentiment_counts['POSITIVE'] / sentiment_counts['Total']) * 100
+    sentiment_counts['Negative_Percentage'] = (sentiment_counts['NEGATIVE'] / sentiment_counts['Total']) * 100
+
+    # Create traces for the bar chart
+    positive_trace = go.Bar(
+        x=sentiment_counts['Decade'],
+        y=sentiment_counts['Positive_Percentage'],
+        name='Positive',
+        marker_color=POSITIVE_MARKER  # Use Prism Cyan
     )
 
+    negative_trace = go.Bar(
+        x=sentiment_counts['Decade'],
+        y=sentiment_counts['Negative_Percentage'],
+        name='Negative',
+        marker_color=NEGATIVE_MARKER  # Use Prism Red
+    )
+    
+    return positive_trace, negative_trace
+
+
+
+def plot_all_sentiments(df, theme):
+    """
+    Plot sentiment evolution for all techniques in one figure with four subplots.
+    
+    Arguments:
+        df: DataFrame containing the data.
+        theme: Theme to analyze.
+    """
+    techniques = ['NLTK', 'TextBlob', 'VADER', 'Emotions']
+    
+    # Create a 2x2 grid of subplots
+    fig = make_subplots(
+        rows=2, cols=2,
+        subplot_titles=[f"{technique} Sentiment" for technique in techniques],
+        shared_xaxes=True, shared_yaxes=True
+    )
+
+    # Add plots for each technique
+    for i, technique in enumerate(techniques):
+        row = (i // 2) + 1
+        col = (i % 2) + 1
+        
+        # Get positive and negative traces
+        positive_trace, negative_trace = plot_sentiment_by_decade(df, theme, technique)
+        
+        # Group traces by legend group to ensure toggling works globally
+        positive_trace.update(legendgroup='Positive', showlegend=(i == 0))
+        negative_trace.update(legendgroup='Negative', showlegend=(i == 0))
+        
+        # Add traces to the subplot
+        fig.add_trace(positive_trace, row=row, col=col)
+        fig.add_trace(negative_trace, row=row, col=col)
+
+    # Update layout
+    fig.update_layout(
+        title=f'Sentiment Evolution by Decade for Theme: {theme}',
+        xaxis_title='Decade',
+        yaxis_title='Percentage of Sentiment',
+        barmode='stack',
+        legend_title='Sentiment',
+        height=800,
+        width=1000,
+        template='plotly_white',
+    )
+    
     # Show the plot
     fig.show()
+
 
 def plot_combined_sentiment_by_decade(df, theme):
     """
@@ -281,14 +375,14 @@ def plot_combined_sentiment_by_decade(df, theme):
         x=sentiment_counts.index,
         y=sentiment_counts['Positive_Percentage'],
         name='Positive',
-        marker_color='blue'
+        marker_color=POSITIVE_MARKER
     ))
 
     fig.add_trace(go.Bar(
         x=sentiment_counts.index,
         y=sentiment_counts['Negative_Percentage'],
         name='Negative',
-        marker_color='orange'
+        marker_color=NEGATIVE_MARKER
     ))
 
     # Update layout
@@ -297,8 +391,7 @@ def plot_combined_sentiment_by_decade(df, theme):
         xaxis=dict(title='Decade'),
         yaxis=dict(title='Percentage of Sentiment', ticksuffix='%'),
         barmode='stack',
-        legend=dict(title='Sentiment'),
-        template='plotly_white'
+        legend=dict(title='Sentiment')
     )
 
     # Show the plot
@@ -367,7 +460,7 @@ def plot_sentiment_pie_charts(df, theme, x=5):
             values='Count',
             names='Grouped_genres',
             title=title,
-            color_discrete_sequence=px.colors.qualitative.Set3
+            color_discrete_sequence=COLOR_PALETTE
         )
 
         # Customize layout
@@ -440,7 +533,7 @@ def plot_top_movie_genres_by_sentiment(df, theme, x=5):
                 'Grouped_genres': 'Genre',
                 'Count': 'Count'
             },
-            color_discrete_sequence=px.colors.qualitative.Set3
+            color_discrete_sequence=COLOR_PALETTE
         )
         # Customize layout
         fig.update_traces(textinfo='percent+label', pull=[0.1 if i == 0 else 0 for i in range(len(top_x_genre))])
@@ -517,7 +610,7 @@ def plot_emotion_counts(df, theme):
         title=f"Total Counts of Emotions Across Movies for {theme} Theme",
         labels={'Emotion': 'Emotion', 'Count': 'Count'},
         text='Count', 
-        #color_discrete_sequence=px.colors.qualitative.Set1 CHANGE COLOR IF NEEDED 
+        color_discrete_sequence=COLOR_PALETTE
     )
     
     fig.update_layout(xaxis_title="Emotion", yaxis_title="Total Count")
@@ -560,7 +653,8 @@ def plot_emotion_counts_by_decade(df, theme):
         color='Emotion',
         title=f"Counts of Emotions by Decade for {theme} Theme",
         labels={'Decade': 'Decade', 'Count': 'Count', 'Emotion': 'Emotion'},
-        markers=True
+        markers=True,
+        color_discrete_sequence=COLOR_PALETTE
     )
     fig.update_layout(
         xaxis_title="Decade",
@@ -622,7 +716,8 @@ def plot_emotion_sentiment_counts(df, theme):
         color='Sentiment',
         title=f"Emotion Counts Categorized by Sentiment for Theme: {theme}",
         labels={'Sentiment': 'Sentiment', 'Emotion_Count': 'Total Emotion Count'},
-        text='Emotion_Count'
+        text='Emotion_Count',
+        color_discrete_sequence=[NEGATIVE_MARKER, POSITIVE_MARKER]
     )
 
     fig.update_layout(xaxis_title="Sentiment", yaxis_title="Total Emotion Count")
@@ -700,7 +795,7 @@ def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
             'Emotion_Count': 'Emotion Count'
         },
         color='Emotion_Count', 
-        color_continuous_scale='RdBu'
+        color_continuous_scale='RdBu',
     )
 
     fig.show()

@@ -4,7 +4,9 @@ import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
 import ast
-
+COLOR_PALETTE = px.colors.qualitative.Prism
+POSITIVE_MARKER = px.colors.qualitative.Prism[2],  # Cyan
+NEGATIVE_MARKER = px.colors.qualitative.Prism[7]   # Red
 def plot_overall_top_genres(df, theme, x=10):
     """
     Plot a pie chart for the top x genres overall.
@@ -37,7 +39,7 @@ def plot_overall_top_genres(df, theme, x=10):
             'Grouped_genres': 'Genre',
             'Count': 'Count'
         },
-        color_discrete_sequence=px.colors.qualitative.Set3
+        color_discrete_sequence=COLOR_PALETTE
     )
 
     fig.update_traces(textinfo='percent+label', pull=[0.1 if i == 0 else 0 for i in range(x)])
