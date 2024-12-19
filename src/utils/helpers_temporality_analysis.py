@@ -89,6 +89,9 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
         theme: String representing the theme (column name in df_news).
         time_unit: String specifying time unit ('Year' or 'Decade').
     """
+    # Filter movies within the range 1965 to 2015
+    df_movie = df_movie[(df_movie['Movie_release_date'] >= 1965) & (df_movie['Movie_release_date'] <= 2015)]
+
     if time_unit == 'Year':
         movie_time_column = 'Movie_release_date'
         news_time_column = 'year'
@@ -129,6 +132,9 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
     
     # Load full datasets for normalization
     df_full_movies = pd.read_csv('../../data/MovieSummaries/movies_metadata_cleaned.csv')
+
+    # Filter full movie dataset within the range 1965 to 2015
+    df_full_movies = df_full_movies[(df_full_movies['Movie_release_date'] >= 1965) & (df_full_movies['Movie_release_date'] <= 2015)]
 
     # Count total number of movies per time unit in the full dataset
     total_movies = df_full_movies.groupby(movie_time_column).size().reset_index(name='Total_Movies')
@@ -173,8 +179,8 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
     if time_unit == 'Year':
         fig.update_layout(xaxis=dict(range=[1960, 2015])) # News dataset have articles from 1965
     else:
-        fig.update_layout(xaxis=dict(range=[1950, 2020]))
+        fig.update_layout(xaxis=dict(range=[1960, 2015]))
     
     fig.show()
-    
+
 
