@@ -4,5 +4,5 @@
 !/data/df_movies
 !/data/df_news
 /src/utils/__pycache__/*
-
+/data/.DS_Store
 *.npy
