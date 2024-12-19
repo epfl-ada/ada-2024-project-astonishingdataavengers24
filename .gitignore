@@ -2,4 +2,5 @@
 .DS_Store
 /data/*
 !/data/df_movies
+!/data/df_news
 /src/utils/__pycache__/*
