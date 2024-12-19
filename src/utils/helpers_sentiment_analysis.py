@@ -92,19 +92,19 @@ def perform_sentiment_analysis(df):
     df = df.copy()
 
     # Preprocessing (put in preprocessing?)
-    df.loc[:, 'plot_summary'] = df['plot_summary'].apply(preprocess_text)
+    df.loc[:, 'Plot_summary'] = df['Plot_summary'].apply(preprocess_text)
 
     # NLTK Sentiment Analysis
-    df.loc[:, 'NLTK_Sentiment'] = df['plot_summary'].apply(get_nltk_sentiment)
+    df.loc[:, 'NLTK_Sentiment'] = df['Plot_summary'].apply(get_nltk_sentiment)
 
     # TextBlob Sentiment Analysis
-    df.loc[:, 'TB_Sentiment'] = df['plot_summary'].apply(get_textblob_sentiment)
+    df.loc[:, 'TB_Sentiment'] = df['Plot_summary'].apply(get_textblob_sentiment)
 
     # VADER Sentiment Analysis
-    df.loc[:, 'VADER_Sentiment'] = df['plot_summary'].apply(get_vader_sentiment)
+    df.loc[:, 'VADER_Sentiment'] = df['Plot_summary'].apply(get_vader_sentiment)
 
     # Emotion Analysis with NRC Lexicon
-    df.loc[:, 'Emotions'] = df['plot_summary'].apply(extract_emotions)
+    df.loc[:, 'Emotions'] = df['Plot_summary'].apply(extract_emotions)
 
     # Sentiment from Emotions
     df.loc[:, 'Emotions_Sentiment'] = df['Emotions'].apply(classify_sentiment_from_emotions)
@@ -468,10 +468,10 @@ def create_emotions_column(df):
     df = df.copy()
 
     # Apply VADER Sentiment Analysis
-    df.loc[:, 'VADER_Sentiment'] = df['plot_summary'].apply(get_vader_sentiment)
+    df.loc[:, 'VADER_Sentiment'] = df['Plot_summary'].apply(get_vader_sentiment)
 
     # Apply Emotion Analysis
-    df.loc[:, 'Emotions'] = df['plot_summary'].apply(extract_emotions)
+    df.loc[:, 'Emotions'] = df['Plot_summary'].apply(extract_emotions)
 
     # Classify Sentiment Based on Emotions
     df.loc[:, 'Emotions_Sentiment'] = df['Emotions'].apply(classify_sentiment_from_emotions)
