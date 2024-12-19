@@ -75,3 +75,12 @@ Create a nice interface to present our findings, display plots and draw conclusi
 | Report Writing                | Everyone |
 
 ---
+## Contributions
+|  **Team Member**                    |  **Task**  |
+|-------------------------------|----------------------|
+| Sarah  | plots for genre and sentiment analysis, analysis of themes|
+| Massimo | Antoine / Massimo |
+| Antoine              |  |
+| Clémentine | Theme findings, extracting movies from themes|
+| Shuli          | |
+|              | |
