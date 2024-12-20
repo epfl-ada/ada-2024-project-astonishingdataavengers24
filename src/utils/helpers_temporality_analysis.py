@@ -206,9 +206,9 @@ def plot_movies_and_news_frequency(theme, data_folder='../../data/', time_unit='
     # Replace NaN values with 0
     movies_data[np.isnan(movies_data)] = 0
     news_data[np.isnan(news_data)] = 0
-    compute_cross_correlation(movies_data, news_data)
+    fig1, fig2 = compute_cross_correlation(movies_data, news_data)
 
-    return fig
+    return fig, fig1, fig2
 
 def compute_cross_correlation(movies_freq, news_freq):
 
@@ -264,7 +264,6 @@ def compute_cross_correlation(movies_freq, news_freq):
         yaxis_title="Cross-correlation",
         template="plotly_white"
     )
-    fig1.show()
 
 
     # Make interactive plot with slider
@@ -327,7 +326,5 @@ def compute_cross_correlation(movies_freq, news_freq):
         template="plotly_white"
     )
 
-    fig2.show()
-
-    return 
+    return fig1, fig2
    
