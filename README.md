@@ -38,31 +38,21 @@ Movies often reflect the culture and society of a certain time and represent top
 1. **Data Preprocessing**:  
 - Remove stop words and punctuation, to keep only keywords in the movies plot summaries and NYT articles.
 - Metadata: keep only the year of release of the movies and categorize the movies by decade to better visualize the evolution across time, clean the genres of the movies by regrouping redundant ones.
-- Word2Vec model word fitting:
 
-	- Find a proper representation for words not in the model, or remove them.
-	- Remove words with a representation but not in the English language (mainly names).
-2. **Numerical representation for words -- Word2Vec model from Gensim**: This NLP technique usually uses a large neural network to create word embeddings: a map from words to a vector representation in a high-dimensional space. The Word2Vec model is usually trained on a very large corpus (in our case, we use a model trained on a dump of the entire English Wikipedia) and maps vectors with similar usage patterns to similar vectors.
-3. **Numerical representation for movie descriptions**: **Term Frequency-Inverse Document Frequency** is a method to compute a numerical representation for a movie description. A common pitfall when combining individual vectors of words to represent a text is that all  words should not have the same influence. To solve this, TF-IDF computes a weight for each word of the sentence that will determine its global impact: a word appearing often in other movie descriptions will have a lower score. This means that rare words are generally more precise and meaningful than common ones.
-4. **Identify societal themes**:
-Taking the already preprocessed news dataset, find the top 30 topics per decade by topic modeling. First, try different topic modeling techniques, such as Latent Dirichlet Analysis (LDA) to find what seems to be the most suitable. Find words to characterize such themes by finding an average word vector from the theme words and look for the closest word in our dictionary, and select manually the most meaningful themes for further analysis and semantic search.
-5. **Queries by themes**:
-With the identified societal themes, perform semantic search queries on both news and movies datasets to find the most relevant articles and plots. If the topics retrieved from the previous steps are not sufficient, complement our analysis by doing some queries with other themes we find interesting.
-6. **Analyze relationship between themes in both movies and news articles**:
-Analyze the relative presence of themes in both datasets over time, visualize these trends and look for any interesting statistical correlation.
-7. **In-depth analysis: societal reflections in movies via genre and sentiment**:
-Explore how those societal topics are presented in movies and how they reflect society at various points in time. Typically, look for genres in which they are present and the kind of sentiments they are associated with -- positive emotions, negative, fear, hope, etc, in order to see what kind of depiction of society is preferred in movies.
-8. **Conclusion and Data Story**:
-Create a nice interface to present our findings, display plots and draw conclusions from what was observed in the previous steps.
----
-## Implementation
-### 1. Theme Extraction
-**Get inspiration from the newspapers** : To determine the themes we wanted to analyze, we started seeking inspiration for potential topics of interest. Using LSI and LDA models on the news dataset for each time period, we identified recurring and noteworthy themes. Among these, we found war, health, technology, and gender equality particularly interesting.For war, we decided to decompose it into specific war such as WWII, Vietnam war and Cold War. 
-  
-### 2. Semantic search on news and movies
-Now, we want to perform semantic search to find the theme we chose.  We need a good model to do that and we found one : all-MiniLM-L6-v2 from sentence-transformers, available on Hugging Face, can be accessed via the following link: [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). To do our semantic search, we encode the plot summaries of movies or the titles and excerpts of news articles, as well as a query representing the topic of interest. Then, we can compute the cosine similarities between the query and the news or between the query and the movies.  We just have to take all the news or movies that have a similarity with the query higher than a certain threshold and we obtain relevant movies and news articles for given topic.
+2. **Numerical representation for words:**: 
+We used the [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model from Hugginf Face, with the python library "Sentence Transformers" (SBERT). This is a pre-trained model that allows us to easily transform a word or a bag of words to a high-dimensional vector representation (embedding).
 
-### 3. **Analysis of movies emotions and genre**
+
+3. **Identify societal themes**:
+The noisy caracter of the movie descriptions made it difficult to extract reccurent topics. We thus used the News dataset to identify common topics with Latent Dirichelet Alocation, and then choose a few themes to analyse in detail manually. 
+4. **Queries by themes**:
+With the identified societal themes, we computed the vector embedding of a manually chosen querry representing each theme. We were then able to compute the cosine similarity between each movie summary or news article's embedding and the querry's embedding. 
+5. **Analyze relationship between themes in both movies and news articles**:
+We analyzed the relative presence of themes in both datasets over time, focusing on the cross-correlation between the two distributions. We look for any interesting statistical correlation. We provide plots to visualize these trends and provide possible explanation of the trends identified.
+6. **In-depth analysis: societal reflections in movies via genre and sentiment**:
+We explore how those societal topics are presented in movies and how they reflect society at various points in time. Typically, we look for genres in which they are present and the kind of sentiments they are associated with -- positive emotions, negative, fear, hope, etc, in order to see what kind of depiction of society is preferred in movies.
+7. **Conclusion and Data Story**:
+We created a nice interface to present our findings, display plots and draw conclusions from what was observed in the previous steps.
 
 ## Structure of the repository
 ADA-2024-PROJECT-ASTONISHINGDATAAVENGERS24/
