@@ -4,13 +4,19 @@
 ## Abstract 
 Movies often reflect the culture and society of a certain time and represent topics people are interested in. Our project explores how the themes and topics of movies have evolved over time, correlating them with trends observed in newspapers. Using the CMU Movie Summary Corpus, which includes data from over 42000 movies, our goal is to determine how societal issues are present in movies and how this presence evolves in comparison to the same topics in news articles. We want to examine their potential correlations and how they may appear shifted in time. To achieve this goal, we aim to detect important topics via topic modeling in both the CMU dataset and a news article dataset from the New York Times. From that, we will be able to compare the representation of these topics over time.
 
+## Data Story
+
+
 
 ---
 
 ## Research Questions  
 1. How have specific themes in movies evolved over time? Do we see certain themes gaining popularity in movies after some events happening in society?
+
 2. Do movies initiate discussions about certain topics (e.g. environmental issues) or do they reflect themes that are already popular in newspapers?
+
 3. When movies address popular topics, how do their storytelling approaches differ based on the type of topic? Which genres are commonly chosen to represent these themes?
+
 4. When a topic frequently appears in the news, do movies from that time tend to address and represent the issue, or do they provide an escape by focusing on unrelated themes? Additionally, how do the feelings portrayed in these films align with public sentiment?
 
 
@@ -49,15 +55,41 @@ Explore how those societal topics are presented in movies and how they reflect s
 8. **Conclusion and Data Story**:
 Create a nice interface to present our findings, display plots and draw conclusions from what was observed in the previous steps.
 ---
-
-1. - **Get inspiration from the newspapers**
-   - We first we need to find the themes we want to analyze the evolution of. We first tried to get inspiration for the topics we want to analyze. We thus use LSI and LDA models 	in for the news dataset for each period to see what kind of topics are frequent and interesting. We found as interesting war, health, technology (**add final topics**). We complete the topics choice by other topics that we find of interest.
+## Implementation
+### 1. Theme Extraction
+**Get inspiration from the newspapers** : To determine the themes we wanted to analyze, we started seeking inspiration for potential topics of interest. Using LSI and LDA models on the news dataset for each time period, we identified recurring and noteworthy themes. Among these, we found war, health, technology, and gender equality particularly interesting.For war, we decided to decompose it into specific war such as WWII, Vietnam war and Cold War. 
   
-2. - **Semantic search on news and movies**
-- Now, we want to perform semantic search to find the theme we chose.  We need a good model to do that and we found one : all-MiniLM-L6-v2 from sentence-transformers, available on Hugging Face, can be accessed via the following link: [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). To do our semantic search, we encode the plot summaries of movies or the titles and excerpts of news articles, as well as a query representing the topic of interest. Then, we can compute the cosine similarities between the query and the news or between the query and the movies.  We just have to take all the news or movies that have a similarity with the query higher than a certain threshold and we obtain relevant movies and news articles for given topic.
+### 2. Semantic search on news and movies
+Now, we want to perform semantic search to find the theme we chose.  We need a good model to do that and we found one : all-MiniLM-L6-v2 from sentence-transformers, available on Hugging Face, can be accessed via the following link: [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). To do our semantic search, we encode the plot summaries of movies or the titles and excerpts of news articles, as well as a query representing the topic of interest. Then, we can compute the cosine similarities between the query and the news or between the query and the movies.  We just have to take all the news or movies that have a similarity with the query higher than a certain threshold and we obtain relevant movies and news articles for given topic.
 
-3. **Analyis of movies emotions and genre**
-   
+### 3. **Analysis of movies emotions and genre**
+
+## Structure of the repository
+ADA-2024-PROJECT-ASTONISHINGDATAAVENGERS24/
+│
+├── data/                  
+│   ├── df_movies/                   
+│   ├── df_news/           
+│
+├── src/                 # Dataset directory (usually ignored in .gitignore)
+│   ├── raw/              # Raw, unprocessed data
+│   ├── processed/        # Processed data
+│   └── README.md         # Explanation of data formats and sources
+│
+├── tests/                # Test cases for the codebase
+│   └── test_main.py      # Example test script
+│
+├── notebooks/            # Jupyter notebooks for exploration and prototyping
+│   └── analysis.ipynb    # Example notebook
+│
+├── results/              # Generated outputs (e.g., plots, reports, etc.)
+│   └── metrics.csv       # Example result file
+│
+├── requirements.txt      # List of dependencies
+├── README.md             # Documentation (this file)
+├── LICENSE               # License file
+└── .gitignore            # Files and directories to ignore in version control
+
 
 ## Proposed Timeline  
 
