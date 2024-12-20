@@ -110,3 +110,25 @@ def plot_articles_with_theme(theme, year=None, decade=None):
         )
     
     return table_data
+
+def get_number_of_articles(word, year=None):
+    """
+    Get the number of articles containing a specific word, and optionally by year or decade.
+    
+    Arguments:
+        - word: word we want to count in the articles.
+        - year: opt. specific year of the article.
+        - decade: opt. specific decade of the article.
+        
+    Returns:
+        The number of articles containing the specified word, and optionally by year or decade.
+    """
+    df_news = pd.read_csv('../../data/nyt_data.csv')
+
+    
+    if year is not None:
+        df_filtered = df_news[df_news['year'] == year]
+    else:
+        df_filtered = df_news
+    
+    return df_filtered['excerpt'].str.contains(word).sum() + df_filtered['title'].str.contains(word).sum()

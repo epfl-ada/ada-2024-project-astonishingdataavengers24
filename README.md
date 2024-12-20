@@ -50,6 +50,15 @@ Explore how those societal topics are presented in movies and how they reflect s
 Create a nice interface to present our findings, display plots and draw conclusions from what was observed in the previous steps.
 ---
 
+1. - **Get inspiration from the newspapers**
+   - We first we need to find the themes we want to analyze the evolution of. We first tried to get inspiration for the topics we want to analyze. We thus use LSI and LDA models 	in for the news dataset for each period to see what kind of topics are frequent and interesting. We found as interesting war, health, technology (**add final topics**). We complete the topics choice by other topics that we find of interest.
+  
+2. - **Semantic search on news and movies**
+- Now, we want to perform semantic search to find the theme we chose.  We need a good model to do that and we found one : all-MiniLM-L6-v2 from sentence-transformers, available on Hugging Face, can be accessed via the following link: [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). To do our semantic search, we encode the plot summaries of movies or the titles and excerpts of news articles, as well as a query representing the topic of interest. Then, we can compute the cosine similarities between the query and the news or between the query and the movies.  We just have to take all the news or movies that have a similarity with the query higher than a certain threshold and we obtain relevant movies and news articles for given topic.
+
+3. **Analyis of movies emotions and genre**
+   
+
 ## Proposed Timeline  
 
 | **Date**          | **Task**                                                                                     |
@@ -78,8 +87,8 @@ Create a nice interface to present our findings, display plots and draw conclusi
 ## Contributions
 |  **Team Member**                    |  **Task**  |
 |-------------------------------|----------------------|
-| Sarah  | plots for genre and sentiment analysis, analysis of themes gender equality and cold war|
-| Massimo | Data story, analysis of themes world war 2|
-| Antoine  | Extract news from themes, correlation between movies and themes |
+| Sarah  | plots and algorithms for genre and sentiment analysis, analysis of themes gender equality and cold war|
+| Massimo | Data story, analysis of themes WWII|
+| Antoine  | Extract news from themes, correlation between movies and themes|
 | Clémentine | Theme findings, extracting movies from themes, analysis of theme technology and vietnam war|
-| Shuli          | plots for genre and sentiment analysis, algorithm finding for sentiment analysis, analysis of themes health  |
+| Shuli          | plots and algorithms for genre and sentiment analysis, analysis of themes health, Data Story |
