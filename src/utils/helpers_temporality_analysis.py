@@ -106,8 +106,8 @@ def plot_movies_and_news_frequency(theme, time_unit='Year'):
     NEWS_MARKER = px.colors.qualitative.Prism[8]   # Purple
 
     if time_unit == 'Year':
-        movie_time_column = 'year'
-        news_time_column = 'year'
+        movie_time_column = 'Movie_release_date'
+        news_time_column = 'year_x'
         time_range = pd.DataFrame({movie_time_column: range(TIME_START, TIME_END+1)})
     elif time_unit == 'Decade':
         movie_time_column = 'Decade'
