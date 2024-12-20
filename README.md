@@ -78,9 +78,8 @@ Create a nice interface to present our findings, display plots and draw conclusi
 ## Contributions
 |  **Team Member**                    |  **Task**  |
 |-------------------------------|----------------------|
-| Sarah  | plots for genre and sentiment analysis, analysis of themes|
-| Massimo | Antoine / Massimo |
-| Antoine              |  |
-| Clémentine | Theme findings, extracting movies from themes|
-| Shuli          | |
-|              | |
+| Sarah  | plots for genre and sentiment analysis, analysis of themes gender equality and cold war|
+| Massimo | Data story, analysis of themes world war 2|
+| Antoine  | Extract news from themes, correlation between movies and themes |
+| Clémentine | Theme findings, extracting movies from themes, analysis of theme technology and vietnam war|
+| Shuli          | plots for genre and sentiment analysis, algorithm finding for sentiment analysis, analysis of themes health  |
