@@ -105,13 +105,13 @@ def plot_movies_and_news_frequency(theme, time_unit='Year'):
     MOVIES_MARKER = px.colors.qualitative.Prism[1]  # Blue
     NEWS_MARKER = px.colors.qualitative.Prism[8]   # Purple
 
+  
+    movie_time_column = 'year'
+    news_time_column = 'year'
+
     if time_unit == 'Year':
-        movie_time_column = 'year'
-        news_time_column = 'year'
         time_range = pd.DataFrame({movie_time_column: range(TIME_START, TIME_END+1)})
     elif time_unit == 'Decade':
-        movie_time_column = 'Decade'
-        news_time_column = 'decade'
         time_range = pd.DataFrame({movie_time_column: range(TIME_START, TIME_END + 6 , 10)})
     else:
         raise ValueError("Invalid time_unit. Please choose either 'Year' or 'Decade'.")
@@ -134,11 +134,15 @@ def plot_movies_and_news_frequency(theme, time_unit='Year'):
 
     # Load movie cosine similarity data
     df_movie = pd.read_csv('../../data/df_movies/cosine_similarity_movies.csv')
+    if time_unit == 'Decade':
+        df_movie[movie_time_column] = df_movie[movie_time_column].apply(lambda x: x - x % 10)
     # Keep only the date and theme columns
     df_movie = df_movie[[movie_time_column, theme_column]]
 
     # Load news cosine similarity data
     df_news = pd.read_csv('../../data/df_news/cosine_similarity_news.csv')
+    if time_unit == 'Decade':
+        df_news[news_time_column] = df_news[news_time_column].apply(lambda x: x - x % 10)
     # Keep only the id, date and theme columns
     df_news = df_news[[news_time_column, theme_column]]
 
@@ -169,16 +173,18 @@ def plot_movies_and_news_frequency(theme, time_unit='Year'):
     evolution = pd.concat([movies_per_time_theme, news_per_time_theme], axis=1)
     evolution.columns = ['Normalized_Movie_Count', 'Normalized_News_Count']
 
+    title = f"Evolution of Movies and News Frequency in {theme}" + (" by Decade" if time_unit == 'Decade' else  " by Year")
      # Line plot
     fig = px.line(
         evolution,
         x=evolution.index,
         y=['Normalized_Movie_Count', 'Normalized_News_Count'],
         labels={'value': 'Percentage'},
-        title=f"Evolution of Movies and News Frequency in {theme} Theme",
+        title=title,
         markers=True
     )
 
+ 
     # Use specific colors
     fig.update_traces(name="Movies", selector=dict(name="Normalized_Movie_Count"), line=dict(color=MOVIES_MARKER, width=2))
     fig.update_traces(name="News", selector=dict(name="Normalized_News_Count"), line=dict(color=NEWS_MARKER, width=2))
