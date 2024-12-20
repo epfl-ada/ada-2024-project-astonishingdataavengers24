@@ -86,7 +86,7 @@ def plot_movie_countries_world_map(df, theme, period=None):
         coloraxis_colorbar=dict(title="Number of Movies"),
     )
 
-    fig.show()
+    return fig
 
 def plot_overall_top_countries(df, theme, x=10):
     """
