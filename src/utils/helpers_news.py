@@ -47,7 +47,7 @@ def df_theme_year(theme, year=None, decade=None):
 
 def plot_articles_with_theme(theme, year=None, decade=None):
     """
-    Filters articles by a given theme, and optionally by year or decade, and displays them in a table format.
+    Plot articles by a given theme, and optionally by year or decade, and displays them in a table format.
     
     Arguments:
         - theme: theme we want to filter articles by.
@@ -55,7 +55,7 @@ def plot_articles_with_theme(theme, year=None, decade=None):
         - decade: opt. specific decade of the article.
         
     Returns:
-        A Plotly table with the articles filtered by the specified theme, year, and/or decade.
+        A Plotly table with the articles filtered by the specified theme, year, or decade.
     """
     themes = ["Cold War", "Economy", "Gender Equality", "Health", "Technology", "Vietnam War", "World War II"]
     if theme not in themes:
@@ -86,13 +86,13 @@ def plot_articles_with_theme(theme, year=None, decade=None):
     table_data = go.Figure(data=[go.Table(
         header=dict(values=["Year", "Decade", "Title", "Excerpt"]),
         cells=dict(values=[
-            df_filtered['year_x'],  # Column for the year
-            df_filtered['decade'],   # Column for the decade
-            df_filtered['title_truncated'],  # Column for the title (truncated for space)
-            df_filtered['excerpt']  # Column for the excerpt (content)
+            df_filtered['year_x'],
+            df_filtered['decade'], 
+            df_filtered['title_truncated'], 
+            df_filtered['excerpt']  
         ]),
-        hoverinfo="x+text",  # Hover info will show the row's x (index) and text (full title)
-        customdata=df_filtered[['year_x', 'decade', 'title', 'excerpt']].values  # Add full data for hover
+        hoverinfo="x+text", 
+        customdata=df_filtered[['year_x', 'decade', 'title', 'excerpt']].values
     )])
 
     # Customize layout
