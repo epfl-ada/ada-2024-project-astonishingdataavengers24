@@ -2,6 +2,9 @@ import pandas as pd
 from src.utils.helpers_sentiment_analysis import *
 from src.utils.helpers_temporality_analysis import *
 from src.utils.helpers_movies_genres import *
+from src.utils.helpers_news import *
+from src.utils.helpers_movies import *
+
 
 def plot_to_html(df, theme):
     """
@@ -71,3 +74,6 @@ def plot_to_html(df, theme):
 
     fig = plot_movies_and_news_frequency(theme_plot, time_unit='Decade')
     fig.write_html(path_to_folder + f'{theme}_movies_and_news_frequency_decade.html')
+
+    fig = plot_movie_countries_world_map(df, theme_plot)
+    fig.write_html(path_to_folder + f'{theme}_movie_countries_world_map.html')
