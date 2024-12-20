@@ -12,14 +12,14 @@ from scipy.signal import correlate
 TIME_START = 1930
 TIME_END = 2015
 
-def load_theme_dataset(name_of_csv):
+def load_theme_dataset(name_of_csv, data_folder='../../data/df_movies/'):
     """ 
     Load the dataset per theme 
     
     Arugments:
         name_of_csv: String representing the name of the file to load.
     """
-    data_folder = '../../data/df_movies/'
+    #data_folder = '../../data/df_movies/'
     df_plot = pd.read_csv(data_folder + name_of_csv)
     df_plot = df_plot[df_plot['Decade'].notna()]
     df_plot = df_plot[df_plot['Movie_release_date'].notna()]
@@ -29,7 +29,7 @@ def load_theme_dataset(name_of_csv):
 MOVIES_MARKER = px.colors.qualitative.Prism[1]  # Blue
 NEWS_MARKER = px.colors.qualitative.Prism[8]   # Purple
     
-def plot_movie_frequency(df, theme, time_unit='Year'):
+def plot_movie_frequency(df, theme, time_unit='Year', data_folder='../../data/'):
     """
     Plot the evolution of the frequency of movies by either year or decade, normalized by full dataset.
 
@@ -52,7 +52,7 @@ def plot_movie_frequency(df, theme, time_unit='Year'):
     movie_evolution = df.groupby(time_column).size().reset_index(name='Count')
 
     # Upload full dataset for normalization
-    df_full = pd.read_csv('../../data/MovieSummaries/movies_metadata_cleaned.csv')
+    df_full = pd.read_csv(data_folder + 'MovieSummaries/movies_metadata_cleaned.csv')
     df_full = df_full[df_full[time_column].notna()]  # Drop empty time units
 
     # Count total number of movies per year/decade in the full dataset

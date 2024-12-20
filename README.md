@@ -40,7 +40,7 @@ Movies often reflect the culture and society of a certain time and represent top
 - Metadata: keep only the year of release of the movies and categorize the movies by decade to better visualize the evolution across time, clean the genres of the movies by regrouping redundant ones.
 
 2. **Numerical representation for words:**: 
-We used the [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model from Hugginf Face, with the python library "Sentence Transformers" (SBERT). This is a pre-trained model that allows us to easily transform a word or a bag of words to a high-dimensional vector representation (embedding).
+We used the [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model from Hugging Face, with the python library "Sentence Transformers" (SBERT). This is a pre-trained model that allows us to easily transform a word or a bag of words to a high-dimensional vector representation (embedding).
 
 
 3. **Identify societal themes**:
@@ -59,7 +59,7 @@ We created a nice interface to present our findings, display plots and draw conc
 ADA-2024-PROJECT-ASTONISHINGDATAAVENGERS24/
 │
 ├── data/
-│   ├── df_movies/ #movies dataset per theme
+│   ├── df_movies/ # movies dataset per theme
 │   ├── df_news/ # news dataset per theme
 │
 ├── src/
