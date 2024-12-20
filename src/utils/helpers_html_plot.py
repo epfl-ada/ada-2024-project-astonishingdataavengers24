@@ -66,8 +66,8 @@ def plot_to_html(df, theme):
     fig = plot_sunburst_genres_sentiment_emotions(df, theme_plot)
     fig.write_html(path_to_folder + f'{theme}_sunburst_genres_sentiment_emotions.html')
 
-    fig = plot_movies_and_news_frequency(df, theme_plot, time_unit='Year')
+    fig = plot_movies_and_news_frequency(theme_plot, time_unit='Year')
     fig.write_html(path_to_folder + f'{theme}_movies_and_news_frequency_year.html')
 
-    fig = plot_movies_and_news_frequency(df, theme_plot, time_unit='Decade')
+    fig = plot_movies_and_news_frequency(theme_plot, time_unit='Decade')
     fig.write_html(path_to_folder + f'{theme}_movies_and_news_frequency_decade.html')
