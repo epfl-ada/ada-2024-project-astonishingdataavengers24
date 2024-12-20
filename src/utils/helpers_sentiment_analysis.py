@@ -598,11 +598,17 @@ def plot_emotion_counts_by_decade(df, theme):
     # Summarize counts by decade and emotion
     emotions_summary = emotions_by_decade_df.groupby(['Decade', 'Emotion'])['Count'].sum().reset_index()
 
+    # Calculate total counts per decade
+    total_counts_by_decade = emotions_summary.groupby('Decade')['Count'].transform('sum')
+
+    # Normalize emotion counts by total counts per decade
+    emotions_summary['Normalized_Count'] = emotions_summary['Count'] / total_counts_by_decade
+
     # Line chart
     fig = px.line(
         emotions_summary,
         x='Decade',
-        y='Count',
+        y='Normalized_Count',
         color='Emotion',
         title=f"Counts of Emotions by Decade for {theme} Theme",
         labels={'Decade': 'Decade', 'Count': 'Count', 'Emotion': 'Emotion'},
