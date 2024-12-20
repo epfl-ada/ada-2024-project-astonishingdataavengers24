@@ -55,30 +55,22 @@ We explore how those societal topics are presented in movies and how they reflec
 We created a nice interface to present our findings, display plots and draw conclusions from what was observed in the previous steps.
 
 ## Structure of the repository
+```plaintext
 ADA-2024-PROJECT-ASTONISHINGDATAAVENGERS24/
 │
-├── data/                  
-│   ├── df_movies/                   
-│   ├── df_news/           
+├── data/
+│   ├── df_movies/ #movies dataset per theme
+│   ├── df_news/ # news dataset per theme
 │
-├── src/                 # Dataset directory (usually ignored in .gitignore)
-│   ├── raw/              # Raw, unprocessed data
-│   ├── processed/        # Processed data
-│   └── README.md         # Explanation of data formats and sources
+├── src/
+│   ├── preprocess/
+│   ├── sentiment_analysis/ # contains all notebooks per theme
+│   ├── themes/ # notebook for finding themes in movies and news
+│   ├── utils/ #helpers 
 │
-├── tests/                # Test cases for the codebase
-│   └── test_main.py      # Example test script
-│
-├── notebooks/            # Jupyter notebooks for exploration and prototyping
-│   └── analysis.ipynb    # Example notebook
-│
-├── results/              # Generated outputs (e.g., plots, reports, etc.)
-│   └── metrics.csv       # Example result file
-│
-├── requirements.txt      # List of dependencies
-├── README.md             # Documentation (this file)
-├── LICENSE               # License file
-└── .gitignore            # Files and directories to ignore in version control
+├── README.md
+├── results.ipynb
+```
 
 
 ## Proposed Timeline  
