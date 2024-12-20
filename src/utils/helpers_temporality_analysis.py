@@ -185,7 +185,7 @@ def plot_movies_and_news_frequency(theme, data_folder='../../data/', time_unit='
     news_data[np.isnan(news_data)] = 0
     fig1, fig2 = compute_cross_correlation(movies_data, news_data)
 
-    return fig, fig1, fig2
+    return fig1, fig2
 
 def compute_cross_correlation(movies_freq, news_freq):
 
