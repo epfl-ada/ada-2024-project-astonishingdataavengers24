@@ -639,9 +639,7 @@ def plot_emotion_sentiment_counts(df, theme):
 
     # Ensure the genres column is parsed correctly
     df = df.copy()
-    df['Movie_genres'] = df['Movie_genres'].apply(
-        lambda x: ast.literal_eval(x) if isinstance(x, str) else x
-    )
+    
 
     # Expand the 'Emotions' dictionary into individual rows
     emotion_data = []
@@ -704,12 +702,12 @@ def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
     df = df.copy()
 
     # Get the movie genres
-    df['Movie_genres'] = df['Movie_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+    df['Grouped_genres'] = df['Grouped_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
 
-    df_exploded = df.explode('Movie_genres')
+    df_exploded = df.explode('Grouped_genres')
 
     top_genres = (
-        df_exploded['Movie_genres']
+        df_exploded['Grouped_genres']
         .value_counts()
         .nlargest(x)
         .index
@@ -717,7 +715,7 @@ def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
     )
 
     # Filter for rows with the top genres 
-    df_exploded = df_exploded[df_exploded['Movie_genres'].isin(top_genres)]
+    df_exploded = df_exploded[df_exploded['Grouped_genres'].isin(top_genres)]
 
     # Expand the dictionary into individual rows
     emotion_data = []
@@ -727,7 +725,7 @@ def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
                 if row['Emotions_Sentiment'] == 'POSITIVE' and emotion in positive_emotions:
                     emotion_data.append({
                         'Theme': theme,
-                        'Genre': row['Movie_genres'],
+                        'Genre': row['Grouped_genres'],
                         'Sentiment': row['Emotions_Sentiment'],
                         'Emotion': emotion,
                         'Emotion_Count': count
@@ -735,7 +733,7 @@ def plot_sunburst_genres_sentiment_emotions(df, theme, x=5):
                 elif row['Emotions_Sentiment'] == 'NEGATIVE' and emotion in negative_emotions:
                     emotion_data.append({
                         'Theme': theme,
-                        'Genre': row['Movie_genres'],
+                        'Genre': row['Grouped_genres'],
                         'Sentiment': row['Emotions_Sentiment'],
                         'Emotion': emotion,
                         'Emotion_Count': count
