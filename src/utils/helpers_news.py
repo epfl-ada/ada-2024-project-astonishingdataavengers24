@@ -1,6 +1,17 @@
 import pandas as pd
 
-def df_theme_year(theme, year=None):
+def df_theme_year(theme, year=None, decade=None):
+    """
+    Filters dataframe with specific theme, and optionnally either by year or decade.
+    
+    Arguments:
+        - theme: themes we want to find in the articles.
+        - year: opt. year of the article.
+        - decade: opt. decade of the article.
+        
+    Returns:
+        A pd.DataFrame with only articles of a theme, and eventually from a specific year / decade.
+    """
     
     themes = ["Cold War", "Economy", "Gender Equality", "Health", "Technology", "Vietnam War", "World War II"]
     if theme not in themes:
@@ -27,5 +38,7 @@ def df_theme_year(theme, year=None):
     
     if year is not None:
         return df_news[df_news['year_x'] == year]
+    elif decade is not None:
+        return df_news[df_news['decade'] == decade]
     else:
         return df_news
