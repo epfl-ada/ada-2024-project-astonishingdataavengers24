@@ -50,10 +50,10 @@ With the identified societal themes, we computed the vector embeddings of a manu
 We analyzed the relative presence of themes in both datasets over time, focusing on the cross-correlation between the two distributions. We looked for any interesting statistical correlations. We provided plots to visualize these trends and offer possible explanations for the trends identified.
 
 6. **In-depth analysis: societal reflections in movies via genre and sentiment**:
-We explored how these societal topics are presented in movies and how they reflect society at various points in time. Typically, we looked at the genres in which they are present and the kinds of sentiments they are associated with — positive emotions, negative emotions, fear, hope, etc., to understand what kind of depiction of society is preferred in movies.
+We explored how these societal topics are presented in movies and how they reflect society at various points in time. Typically, we looked at the genres in which they are present and the kinds of sentiments they are associated with — positive emotions, negative emotions, fear, hope, etc., to understand what kind of depiction of society is preferred in movies. 
 
 7. **Conclusion and Data Story**:
-We created a nice interface to present our findings, display plots and draw conclusions from what was observed in the previous steps.
+We created a nice interface to present our findings, display plots and draw conclusions from what was observed in the previous step. We narrated the story like Inspector Gadget in a fun way.
 
 ## Structure of the repository
 ```plaintext
@@ -82,3 +82,10 @@ ADA-2024-PROJECT-ASTONISHINGDATAAVENGERS24/
 | Antoine  | Extracting news by themes, analysis of the correlation between movies and themes|
 | Clémentine | Extracting movies by themes, analysis of Technology and Vietnam War themes|
 | Shuli          | Plots and algorithms for genre and sentiment analysis, analysis of Health theme, Data Story |
+
+--- 
+### Additional explanations
+#### Sentiment Analysis
+For sentiment analysis, we used 4 libraries: VADER, NLTK, TextBlob and NRCLex for emotions. They didn't output the same sentiment for all movies, so we decided to sum them all and for each movie, we take the majority sentiment. 
+
+
