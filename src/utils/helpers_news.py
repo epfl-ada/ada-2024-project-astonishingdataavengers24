@@ -84,15 +84,12 @@ def plot_articles_with_theme(theme, year=None, decade=None):
     
     # Create the table
     table_data = go.Figure(data=[go.Table(
-        header=dict(values=["Year", "Decade", "Title", "Excerpt"]),
+        header=dict(values=["Year", "Title", "Excerpt"]),
         cells=dict(values=[
             df_filtered['year_x'],
-            df_filtered['decade'], 
             df_filtered['title_truncated'], 
-            df_filtered['excerpt']  
-        ]),
-        hoverinfo="x+text", 
-        customdata=df_filtered[['year_x', 'decade', 'title', 'excerpt']].values
+            df_filtered['excerpt']
+        ])
     )])
 
     # Customize layout

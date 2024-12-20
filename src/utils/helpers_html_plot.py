@@ -70,10 +70,13 @@ def plot_to_html(df, theme):
     fig.write_html(path_to_folder + f'{theme}_sunburst_genres_sentiment_emotions.html')
 
     fig = plot_movies_and_news_frequency(theme_plot, time_unit='Year')
-    fig.write_html(path_to_folder + f'{theme}_movies_and_news_frequency_year.html')
+    fig[0].write_html(path_to_folder + f'{theme}_movies_and_news_frequency_year.html')
+    fig[1].write_html(path_to_folder + f'{theme}_movies_news_cross_correlation.html')
+    fig[2].write_html(path_to_folder + f'{theme}_movies_news_interactive_lag.html')
 
     fig = plot_movies_and_news_frequency(theme_plot, time_unit='Decade')
-    fig.write_html(path_to_folder + f'{theme}_movies_and_news_frequency_decade.html')
+    fig[0].write_html(path_to_folder + f'{theme}_movies_and_news_frequency_decade.html')
 
     fig = plot_movie_countries_world_map(df, theme_plot)
     fig.write_html(path_to_folder + f'{theme}_movie_countries_world_map.html')
+    
