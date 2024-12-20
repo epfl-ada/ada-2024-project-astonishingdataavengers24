@@ -103,7 +103,7 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
 
     if time_unit == 'Year':
         movie_time_column = 'Movie_release_date'
-        news_time_column = 'year'
+        news_time_column = 'year_x'
         time_range = pd.DataFrame({movie_time_column: range(1965, 2016)})
     elif time_unit == 'Decade':
         movie_time_column = 'Decade'
