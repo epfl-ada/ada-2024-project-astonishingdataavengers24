@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 import sys
 import os
 import ast
-
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../../")))
 import dask.dataframe as dd
 
 TIME_START = 1930
@@ -106,8 +106,8 @@ def plot_movies_and_news_frequency(theme, time_unit='Year'):
     NEWS_MARKER = px.colors.qualitative.Prism[8]   # Purple
 
     if time_unit == 'Year':
-        movie_time_column = 'Movie_release_date'
-        news_time_column = 'year_x'
+        movie_time_column = 'year'
+        news_time_column = 'year'
         time_range = pd.DataFrame({movie_time_column: range(TIME_START, TIME_END+1)})
     elif time_unit == 'Decade':
         movie_time_column = 'Decade'
@@ -133,12 +133,12 @@ def plot_movies_and_news_frequency(theme, time_unit='Year'):
     theme_column = theme_mapping[theme]
 
     # Load movie cosine similarity data
-    df_movie = pd.read_csv('data/df_movies/cosine_similarity_movies.csv')
+    df_movie = pd.read_csv('../../data/df_movies/cosine_similarity_movies.csv')
     # Keep only the date and theme columns
     df_movie = df_movie[[movie_time_column, theme_column]]
 
     # Load news cosine similarity data
-    df_news = pd.read_csv('data/df_news/cosine_similarity_news.csv')
+    df_news = pd.read_csv('../../data/df_news/cosine_similarity_news.csv')
     # Keep only the id, date and theme columns
     df_news = df_news[[news_time_column, theme_column]]
 
