@@ -173,29 +173,6 @@ def plot_movies_and_news_frequency(theme, data_folder='../../data/', time_unit='
     evolution = pd.concat([movies_per_time_theme, news_per_time_theme], axis=1)
     evolution.columns = ['Normalized_Movie_Count', 'Normalized_News_Count']
 
-    title = f"Evolution of Movies and News Frequency in {theme}" + (" by Decade" if time_unit == 'Decade' else  " by Year")
-     # Line plot
-    fig = px.line(
-        evolution,
-        x=evolution.index,
-        y=['Normalized_Movie_Count', 'Normalized_News_Count'],
-        labels={'value': 'Percentage'},
-        title=title,
-        markers=True
-    )
-
- 
-    # Use specific colors
-    fig.update_traces(name="Movies", selector=dict(name="Normalized_Movie_Count"), line=dict(color=MOVIES_MARKER, width=2))
-    fig.update_traces(name="News", selector=dict(name="Normalized_News_Count"), line=dict(color=NEWS_MARKER, width=2))
-    fig.update_layout(
-        xaxis_title=time_unit,
-        yaxis_title=f"Percentage of Movies and News in {theme} Theme",
-        legend_title="Source of data",
-        xaxis=dict(tickangle=45),
-        template="plotly_white"
-    )
-
     # Compute the correlation between movies and news
     correlation = evolution['Normalized_Movie_Count'].corr(evolution['Normalized_News_Count'])
     print(f"Correlation between movies and news for theme '{theme}': {correlation}")
@@ -208,7 +185,7 @@ def plot_movies_and_news_frequency(theme, data_folder='../../data/', time_unit='
     news_data[np.isnan(news_data)] = 0
     compute_cross_correlation(movies_data, news_data)
 
-    return fig
+    return
 
 def compute_cross_correlation(movies_freq, news_freq):
 
