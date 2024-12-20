@@ -158,6 +158,12 @@ def plot_movies_and_news_frequency(df_movie, theme, time_unit='Decade'):
     evolution = time_range.merge(evolution, on=movie_time_column, how='left')
     evolution.fillna(0, inplace=True)
 
+    # Calculate Euclidean distance
+    normalized_movie = evolution['Normalized_Movie_Count'].values
+    normalized_news = evolution['Normalized_News_Count'].values
+    euclidean_distance = np.sqrt(np.sum((normalized_movie - normalized_news) ** 2))
+    print("Euclidean distance between movie and news data:", euclidean_distance)
+
     # Line plot
     fig = px.line(
         evolution,
