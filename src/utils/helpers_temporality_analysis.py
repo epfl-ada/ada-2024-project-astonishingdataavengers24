@@ -278,11 +278,11 @@ def compute_cross_correlation(movies_freq, news_freq):
 
     # Create and add slider
     steps = []
-    for i in range(len(fig2.data) - 1):  # Exclude Series 1 trace from slider steps
+    for i in range(len(fig2.data) - 1):  # Exclude movies trace from slider steps
         step = dict(
             method="update",
             args=[
-                {"visible": [i == j for j in range(len(fig2.data) - 1)] + [True]},  # Show one trace + Series 1
+                {"visible": [i == j for j in range(len(fig2.data) - 1)] + [True]},  # Show one news trace at a time
             ],
         )
         steps.append(step)
