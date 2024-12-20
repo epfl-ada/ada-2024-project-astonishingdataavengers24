@@ -21,17 +21,15 @@ def plot_overall_top_genres(df, theme, x=10):
     Returns:
         Plotly figure.
     """
-    # Group by 'Grouped_genres' and count occurrences
+    
     df['Grouped_genres'] = df['Grouped_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
 
-    # Exploding the 'Grouped_genres' column so that each genre becomes a separate row
+    
     df_expanded = df.explode('Grouped_genres')
 
-    # Group by 'Grouped_genres' and count occurrences
     genre_counts = df_expanded.groupby(['Grouped_genres']).size().reset_index(name="Count")
     genre_counts = genre_counts.sort_values(by=['Count'], ascending=False)
 
-    # Get the overall top x genres
     top_x_genre_overall = genre_counts.head(x)
 
     # Pie chart
@@ -67,7 +65,7 @@ def plot_top_genres_by_decade(df, theme, x=10):
     df['Grouped_genres'] = df['Grouped_genres'].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
     df_expanded = df.explode('Grouped_genres')
 
-    # Group by 'Decade' and 'Grouped_genres' and count occurrences
+    
     genre_distribution = df_expanded.groupby(['Decade', 'Grouped_genres']).size().reset_index(name="Count")
 
     # Sort 'Decade' and 'Count'
@@ -120,7 +118,7 @@ def plot_top_genres_by_continent(df, top_x=5):
         df: the DataFrame containing movie data.
         top_x: the number of top genres per decade to display
     """
-    #Count Occurrences of grouped genres per decade per continent
+  
     genre_counts = df.groupby(['Decade', 'Movie_continent', 'Grouped_genres']).size().reset_index(name='Count')
 
     # Get unique continents
